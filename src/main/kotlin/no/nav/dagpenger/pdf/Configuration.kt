@@ -10,29 +10,25 @@ import no.nav.dagpenger.oauth2.CachedOauth2Client
 import no.nav.dagpenger.oauth2.OAuth2Config
 
 internal object Configuration {
-    const val APP_NAME = "dp-behov-distribuering"
+    const val APP_NAME = "dp-behov-pdf-generator"
 
     private val defaultProperties =
         ConfigurationMap(
             mapOf(
-                "RAPID_APP_NAME" to "dp-behov-distribuering",
-                "KAFKA_CONSUMER_GROUP_ID" to "dp-behov-distribuering-v1",
+                "RAPID_APP_NAME" to APP_NAME,
+                "KAFKA_CONSUMER_GROUP_ID" to "$APP_NAME-v1",
                 "KAFKA_RAPID_TOPIC" to "teamdagpenger.rapid.v1",
                 "KAFKA_RESET_POLICY" to "latest",
-                "DOKDISTFORDELING_URL" to "https://dokdistfordeling-q1.dev-fss-pub.nais.io/rest/v1/distribuerjournalpost",
-                "DOKDISTFORDELING_API_SCOPE" to "api://dev-fss.teamdokumenthandtering.saf-q1/.default",
+                "DP_MELLOMLAGRING_BASE_URL" to "http://dp-mellomlagring/v1/azuread/mellomlagring/vedlegg",
+                "DP_MELLOMLAGRING_SCOPE" to "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default",
             ),
         )
 
     val properties =
         ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding defaultProperties
 
-    val distribuerjournalpostUrl = properties[Key("DOKDISTFORDELING_URL", stringType) ]
-    val distribuerjournalpostApiScope = properties[Key("DOKDISTFORDELING_API_SCOPE", stringType) ]
+    val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
 
-    val tokenProvider = {
-        azureAdClient.clientCredentials(distribuerjournalpostApiScope).accessToken
-    }
 
     val config: Map<String, String> =
         properties.list().reversed().fold(emptyMap()) { map, pair ->
