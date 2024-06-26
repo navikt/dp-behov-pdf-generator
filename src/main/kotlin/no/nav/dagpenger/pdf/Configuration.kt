@@ -10,9 +10,7 @@ import no.nav.dagpenger.oauth2.CachedOauth2Client
 import no.nav.dagpenger.oauth2.OAuth2Config
 
 internal object Configuration {
-
     const val APP_NAME = "dp-behov-pdf-generator"
-
     private val defaultProperties =
         ConfigurationMap(
             mapOf(
@@ -27,7 +25,6 @@ internal object Configuration {
 
     val properties =
         ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding defaultProperties
-
     val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
     private val dpMellomlagringApiScope = properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)]
     val dpMellomlagringTokenSupplier: () -> String = {
