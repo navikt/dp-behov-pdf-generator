@@ -18,7 +18,6 @@ internal class ApplicationBuilder(
 
     init {
         rapidsConnection.register(this).also {
-
         }
     }
 
