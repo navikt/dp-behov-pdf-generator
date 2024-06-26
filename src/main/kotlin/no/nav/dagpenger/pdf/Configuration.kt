@@ -29,7 +29,6 @@ internal object Configuration {
 
     val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
 
-
     val config: Map<String, String> =
         properties.list().reversed().fold(emptyMap()) { map, pair ->
             map + pair.second
