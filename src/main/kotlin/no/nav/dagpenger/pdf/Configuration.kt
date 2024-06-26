@@ -10,6 +10,7 @@ import no.nav.dagpenger.oauth2.CachedOauth2Client
 import no.nav.dagpenger.oauth2.OAuth2Config
 
 internal object Configuration {
+
     const val APP_NAME = "dp-behov-pdf-generator"
 
     private val defaultProperties =
@@ -20,7 +21,7 @@ internal object Configuration {
                 "KAFKA_RAPID_TOPIC" to "teamdagpenger.rapid.v1",
                 "KAFKA_RESET_POLICY" to "latest",
                 "DP_MELLOMLAGRING_BASE_URL" to "http://dp-mellomlagring/v1/azuread/mellomlagring/vedlegg",
-                "DP_MELLOMLAGRING_SCOPE" to "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default",
+                "DP_MELLOMLAGRING_API_SCOPE" to "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default",
             ),
         )
 
@@ -28,7 +29,10 @@ internal object Configuration {
         ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding defaultProperties
 
     val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
-
+    private val dpMellomlagringApiScope = properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)]
+    val dpMellomlagringTokenSupplier: () -> String = {
+        azureAdClient.clientCredentials(dpMellomlagringApiScope).accessToken
+    }
     val config: Map<String, String> =
         properties.list().reversed().fold(emptyMap()) { map, pair ->
             map + pair.second

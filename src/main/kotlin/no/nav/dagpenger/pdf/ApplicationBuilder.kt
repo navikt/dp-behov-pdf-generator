@@ -1,6 +1,9 @@
 package no.nav.dagpenger.pdf
 
 import mu.KotlinLogging
+import no.nav.dagpenger.pdf.behovløser.PdfBehovløser
+import no.nav.dagpenger.pdf.lagring.Lagring
+import no.nav.dagpenger.pdf.lagring.LagringImpl
 import no.nav.helse.rapids_rivers.RapidApplication
 import no.nav.helse.rapids_rivers.RapidsConnection
 
@@ -16,8 +19,16 @@ internal class ApplicationBuilder(
             .Builder(RapidApplication.RapidApplicationConfig.fromEnv(config))
             .build()
 
+    private val lagring: Lagring by lazy {
+        LagringImpl(
+            baseUrl = Configuration.dpMellomlagringBaseUrl,
+            tokenSupplier = Configuration.dpMellomlagringTokenSupplier,
+        )
+    }
+
     init {
         rapidsConnection.register(this).also {
+            PdfBehovløser(rapidsConnection, lagring)
         }
     }
 
