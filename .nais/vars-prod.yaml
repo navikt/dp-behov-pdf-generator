@@ -1,0 +1,2 @@
+kafka_pool: nav-prod
+dp_mellomlagring_api_scope: "api://prod-gcp.teamdagpenger.dp-mellomlagring/.default"
