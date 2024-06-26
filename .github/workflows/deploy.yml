@@ -1,11 +1,9 @@
 name: Build and deploy
 
-
-#Kommenter inn
-#on:
-#  push:
-#    branches-ignore:
-#      - 'dependabot/**'
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
 
 jobs:
   build:
@@ -69,6 +67,7 @@ jobs:
     needs: [ build ]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment: prod-gcp
     steps:
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2
@@ -76,5 +75,6 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: .nais/nais.yaml
+          VAR: image=${{ needs.build.outputs.image }}
           VARS: .nais/vars-prod.yaml
           PRINT_PAYLOAD: true
