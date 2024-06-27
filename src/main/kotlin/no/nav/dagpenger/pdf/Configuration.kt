@@ -23,17 +23,21 @@ internal object Configuration {
             ),
         )
 
-    val properties =
+    private val properties =
         ConfigurationProperties.systemProperties() overriding EnvironmentVariables() overriding defaultProperties
-    val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
-    private val dpMellomlagringApiScope = properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)]
-    val dpMellomlagringTokenSupplier: () -> String = {
-        azureAdClient.clientCredentials(dpMellomlagringApiScope).accessToken
-    }
+
     val config: Map<String, String> =
         properties.list().reversed().fold(emptyMap()) { map, pair ->
             map + pair.second
+
         }
+
+    val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
+
+    val dpMellomlagringTokenSupplier: () -> String = {
+        azureAdClient.clientCredentials(properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)]).accessToken
+    }
+
     private val azureAdClient: CachedOauth2Client by lazy {
         val azureAdConfig = OAuth2Config.AzureAd(properties)
         CachedOauth2Client(

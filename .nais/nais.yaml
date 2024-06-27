@@ -27,3 +27,10 @@ spec:
   env:
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: {{ dp_mellomlagring_api_scope }}
+  azure:
+    application:
+      enabled: true
+  accesspolicy:
+    outbound:
+      rules:
+        - application: dp-mellomlagring
