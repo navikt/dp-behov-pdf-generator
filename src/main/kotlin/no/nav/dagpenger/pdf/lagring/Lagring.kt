@@ -47,6 +47,7 @@ internal class LagringImpl(
 ) : Lagring {
     private val httpKlient: HttpClient =
         HttpClient(engine) {
+            expectSuccess = true
             defaultRequest {
                 header("Authorization", "Bearer ${tokenSupplier.invoke()}")
             }
