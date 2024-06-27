@@ -30,7 +30,7 @@ spec:
   azure:
     application:
       enabled: true
-  accesspolicy:
+  accessPolicy:
     outbound:
       rules:
         - application: dp-mellomlagring
