@@ -16,6 +16,7 @@ dependencies {
     implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
     implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.10")
     implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
 
     testImplementation("de.redsix:pdfcompare:1.1.61")
     testImplementation("org.verapdf:validation-model:1.26.1")

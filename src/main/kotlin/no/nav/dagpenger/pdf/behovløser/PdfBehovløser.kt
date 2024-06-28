@@ -5,6 +5,7 @@ import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import mu.withLoggingContext
 import no.nav.dagpenger.pdf.generator.PdfBuilder
+import no.nav.dagpenger.pdf.html.lagHtml
 import no.nav.dagpenger.pdf.lagring.Lagring
 import no.nav.dagpenger.pdf.lagring.PdfDokument
 import no.nav.helse.rapids_rivers.JsonMessage
@@ -42,10 +43,10 @@ internal class PdfBehovløser(
     ) {
         withLoggingContext("id" to packet["@id"].asText()) {
             val ident = packet["ident"].asText()
-            val html = packet["htmlBase64"].asText().decodeBase64String()
+            val body = packet["htmlBase64"].asText().decodeBase64String()
             val dokumentNavn = packet["dokumentNavn"].asText()
             val kontekst = packet["kontekst"].asText()
-            val pdf = PdfBuilder.lagPdf(html)
+            val pdf = PdfBuilder.lagPdf(lagHtml(body))
 
             val pdfDokument =
                 PdfDokument(
