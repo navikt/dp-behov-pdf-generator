@@ -24,6 +24,8 @@ spec:
       memory: 256Mi
   secureLogs:
     enabled: true
+  ingresses:
+    - https://dp-pdf-generator.intern.dev.nav.no
   env:
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: {{ dp_mellomlagring_api_scope }}

@@ -2,6 +2,7 @@ package no.nav.dagpenger.pdf.generator
 
 import io.kotest.assertions.withClue
 import io.kotest.matchers.booleans.shouldBeTrue
+import no.nav.dagpenger.pdf.les
 import org.junit.jupiter.api.Test
 import org.verapdf.gf.foundry.VeraGreenfieldFoundryProvider
 import org.verapdf.pdfa.Foundries
@@ -10,14 +11,6 @@ import org.verapdf.pdfa.results.TestAssertion
 import java.io.ByteArrayInputStream
 
 internal class PdfBuilderTest {
-    companion object {
-        private val resourceRetriever = object {}.javaClass
-
-        private fun String.les(): String {
-            return resourceRetriever.getResource(this)!!.readText()
-        }
-    }
-
     @Test
     fun `Kan lage PDF som møter PdfA og UA-standardene fra enkel HTML`() {
         val enkelHtml = "/html/enkel.html".les()

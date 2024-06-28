@@ -2,6 +2,7 @@ package no.nav.dagpenger.pdf
 
 import mu.KotlinLogging
 import no.nav.dagpenger.pdf.behovløser.PdfBehovløser
+import no.nav.dagpenger.pdf.generator.pdfGeneratorApi
 import no.nav.dagpenger.pdf.lagring.Lagring
 import no.nav.dagpenger.pdf.lagring.LagringImpl
 import no.nav.helse.rapids_rivers.RapidApplication
@@ -17,6 +18,9 @@ internal class ApplicationBuilder(
     private val rapidsConnection: RapidsConnection =
         RapidApplication
             .Builder(RapidApplication.RapidApplicationConfig.fromEnv(config))
+            .withKtorModule {
+                pdfGeneratorApi()
+            }
             .build()
 
     private val lagring: Lagring by lazy {
