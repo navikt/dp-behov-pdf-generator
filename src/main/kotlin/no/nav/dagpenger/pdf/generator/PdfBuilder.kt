@@ -2,6 +2,7 @@ package no.nav.dagpenger.pdf.generator
 
 import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import mu.KotlinLogging
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -64,6 +65,7 @@ internal object PdfBuilder {
                     }
                 }
                     .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
+                    .useSVGDrawer(BatikSVGDrawer())
                     .usePdfUaAccessbility(true)
                     .useColorProfile("/sRGB2014.icc".fileAsByteArray())
                     .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
