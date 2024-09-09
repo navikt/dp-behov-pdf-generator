@@ -9,9 +9,14 @@ import kotlinx.html.stream.createHTML
 import kotlinx.html.style
 import kotlinx.html.title
 import kotlinx.html.unsafe
+import no.nav.dagpenger.pdf.utils.fileAsString
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.safety.Safelist
 
 fun lagHtml(body: String): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
+        val css = "/css/styling.css".fileAsString()
         lang = "no"
         head {
             title = "Dokument"
@@ -19,23 +24,23 @@ fun lagHtml(body: String): String {
             style {
                 unsafe {
                     raw(
-                        """
-                        body {
-                            font-family: 'Source Sans Pro';
-                            font-style: normal;
-                            width: 600px;
-                            padding: 0 40px 40px 40px;
-                            color: rgb(38, 38, 38);
-                        }
-                        """,
+                        css,
                     )
                 }
             }
         }
         body {
-            unsafe { raw(body) }
+            unsafe { raw(body.clean()) }
         }
-    }.replace("&nbsp;", " ")
+    }.let {
+        val doc = Jsoup.parse(it)
+        doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
+        doc.html()
+    }
+}
+
+private fun String.clean() =
+    this
+        .replace("&nbsp;", " ")
         .replace("\u001d", "") // Group separator character
         .replace("\u001c", "") // File separator character
-}

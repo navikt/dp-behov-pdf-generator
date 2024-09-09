@@ -16,7 +16,10 @@ internal class PdfBuilderTest {
     @Test
     fun `Kan lage PDF som møter PdfA og UA-standardene fra enkel HTML`() {
         val htmlBody = "/html/enkel.html".les()
-        val html = lagHtml(htmlBody)
+        val html =
+            lagHtml(htmlBody).also {
+                it.skrivTilFil("build/test.html")
+            }
         VeraGreenfieldFoundryProvider.initialise()
         Foundries.defaultInstance().use { foundry ->
             val pdf = PdfBuilder.lagPdf(html)
@@ -38,7 +41,6 @@ internal class PdfBuilderTest {
                 }
             }
 
-            html.skrivTilFil("build/test.html")
             pdf.skrivTilFil("build/test.pdf")
         }
     }
