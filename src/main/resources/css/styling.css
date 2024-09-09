@@ -80,3 +80,19 @@
 .meldingOmVedtak__signatur {
     margin: 32px 0 40px;
 }
+
+@page {
+    size: A4 portrait;
+    @top-right {
+        content: counter(page);
+        font-family: 'Source Sans Pro';
+        padding-right: 15px;
+    }
+    orphans: 2;
+}
+
+@media print {
+    h2, h3 {
+        page-break-after: avoid
+    }
+}

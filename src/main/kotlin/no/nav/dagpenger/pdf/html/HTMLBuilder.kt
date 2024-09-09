@@ -12,7 +12,6 @@ import kotlinx.html.unsafe
 import no.nav.dagpenger.pdf.utils.fileAsString
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.safety.Safelist
 
 fun lagHtml(body: String): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {

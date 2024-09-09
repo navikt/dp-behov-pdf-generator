@@ -10,6 +10,7 @@ import io.ktor.server.request.receiveText
 import io.ktor.server.response.respond
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
+import no.nav.dagpenger.pdf.html.lagHtml
 
 fun Application.pdfGeneratorApi() {
     install(ContentNegotiation) {
@@ -25,7 +26,7 @@ fun Application.pdfGeneratorApi() {
                 call.respond(HttpStatusCode.BadRequest, "HTML content is empty")
                 return@post
             }
-            PdfBuilder.lagPdf(htmlContent).let {
+            PdfBuilder.lagPdf(lagHtml(htmlContent)).let {
                 call.respond(HttpStatusCode.OK, it)
             }
         }
