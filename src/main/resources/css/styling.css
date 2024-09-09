@@ -3,11 +3,11 @@
     height: 842px; /* A4 høyde */
     padding: 64px 64px 74px;
 
-    box-shadow:  0px 5px 12px 0px rgba(0, 0, 0, 0.13), 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 0px 1px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 5px 12px 0px rgba(0, 0, 0, 0.13), 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 0px 1px 0px rgba(0, 0, 0, 0.15);
     background-color: white;
     overflow: auto;
 
-    font-family: Source Sans Pro, sans-serif;
+    font-family: 'Source Sans 3', sans-serif;
     font-size: 11px;
     line-height: 16px;
     font-weight: normal;
@@ -83,11 +83,21 @@
 
 @page {
     size: A4 portrait;
-    @top-right {
-        content: counter(page);
-        font-family: 'Source Sans Pro';
-        padding-right: 15px;
+    @bottom-right {
+        content: 'side ' counter(page) ' av ' counter(pages);
+        font-family: 'Source Sans 3', serif;
+        font-size: 9px;
+        padding-bottom: 26px;
+        padding-right: 39px;
     }
+
+    /*@bottom-left {*/
+    /*    content: 'Saksnummer: {{saksnummer}}';*/
+    /*    font-family: 'Source Sans 3', serif;*/
+    /*    font-size: 9px;*/
+    /*    padding-bottom: 26px;*/
+    /*    padding-left: 71px;*/
+    /*}*/
     orphans: 2;
 }
 
