@@ -17,7 +17,7 @@ internal class PdfBuilderTest {
     fun `Kan lage PDF som møter PdfA og UA-standardene fra enkel HTML`() {
         val htmlBody = "/html/enkel.html".les()
         val html =
-            lagHtml(htmlBody).also {
+            lagHtml(saksnummer = "saksnummber", htmlBody = htmlBody).also {
                 it.skrivTilFil("build/test.html")
             }
         VeraGreenfieldFoundryProvider.initialise()

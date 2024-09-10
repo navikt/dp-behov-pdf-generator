@@ -53,6 +53,7 @@ class PdfBehovløserTest {
                 ident = ident,
                 kontekst = kontekst,
                 løsning = null,
+                sakId = "saksnummer",
             ),
         )
 
@@ -83,6 +84,7 @@ class PdfBehovløserTest {
         ident: String,
         kontekst: String,
         løsning: String? = null,
+        sakId: String = "saksnummer",
     ): String {
         return """
             {
@@ -93,7 +95,11 @@ class PdfBehovløserTest {
                "htmlBase64": "$htmlBrevAsBase64",
                "dokumentNavn": "$dokumentNavn",
                "ident": "$ident",
-               "kontekst": "$kontekst"
+               "kontekst": "$kontekst",
+               "sak": {
+                 "id": "$sakId",
+                 "kontekst": "kontekst"
+                 }
                 ${løsning?.let { """",@løsning": $it"""" } ?: ""}
             }
             """.trimIndent()

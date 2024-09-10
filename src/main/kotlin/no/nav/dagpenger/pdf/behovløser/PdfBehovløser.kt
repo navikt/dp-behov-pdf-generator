@@ -25,7 +25,7 @@ internal class PdfBehovløser(
         val rapidFilter: River.() -> Unit = {
             validate { it.demandValue("@event_name", "behov") }
             validate { it.demandAll("@behov", listOf(BEHOV)) }
-            validate { it.requireKey("ident", "htmlBase64", "dokumentNavn", "kontekst") }
+            validate { it.requireKey("ident", "htmlBase64", "dokumentNavn", "kontekst", "sak") }
             validate { it.rejectKey("@løsning") }
             validate { it.interestedIn("@id") }
         }
@@ -46,7 +46,8 @@ internal class PdfBehovløser(
             val body = packet["htmlBase64"].asText().decodeBase64String()
             val dokumentNavn = packet["dokumentNavn"].asText()
             val kontekst = packet["kontekst"].asText()
-            val pdf = PdfBuilder.lagPdf(lagHtml(body))
+            val saksnummer = packet["sak"]["id"].asText()
+            val pdf = PdfBuilder.lagPdf(html = lagHtml(saksnummer = saksnummer, htmlBody = body))
 
             val pdfDokument =
                 PdfDokument(

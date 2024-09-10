@@ -1,5 +1,6 @@
 package no.nav.dagpenger.pdf.generator
 
+import io.kotest.matchers.shouldBe
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
@@ -19,10 +20,13 @@ class PdfGeneratorApiKtTest {
             }
 
             client.post {
-                url(urlString = "/convert-html-to-pdf")
+                url(urlString = "/convert-html-to-pdf/saksnummer")
                 setBody("/html/enkel.html".les())
-            }.bodyAsChannel().toByteArray().let {
-                File("build/test.pdf").writeBytes(it)
+            }.let {
+                it.status.value shouldBe 200
+                it.bodyAsChannel().toByteArray().let {
+                    File("build/test.pdf").writeBytes(it)
+                }
             }
         }
     }

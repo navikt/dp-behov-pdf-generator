@@ -9,13 +9,15 @@ import kotlinx.html.stream.createHTML
 import kotlinx.html.style
 import kotlinx.html.title
 import kotlinx.html.unsafe
-import no.nav.dagpenger.pdf.utils.fileAsString
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-fun lagHtml(body: String): String {
+fun lagHtml(
+    saksnummer: String,
+    htmlBody: String,
+): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
-        val css = "/css/styling.css".fileAsString()
+        val css = css(saksnummer)
         lang = "no"
         head {
             title = "Dokument"
@@ -29,7 +31,7 @@ fun lagHtml(body: String): String {
             }
         }
         body {
-            unsafe { raw(body.clean()) }
+            unsafe { raw(htmlBody.clean()) }
         }
     }.let {
         val doc = Jsoup.parse(it)
