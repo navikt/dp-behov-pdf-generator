@@ -5,8 +5,8 @@ internal fun css(saksnummer: String): String {
     return """
         .melding-om-vedtak {
             font-family: 'Source Sans 3', sans-serif;
-            font-size: 11px;
-            line-height: 16px;
+            font-size: 11pt;
+            line-height: 16pt;
             font-weight: 400;
         }
 
@@ -16,8 +16,8 @@ internal fun css(saksnummer: String): String {
         }
 
         .melding-om-vedtak__header p {
-            font-size: 11px;
-            line-height: 16px;
+            font-size: 11pt;
+            line-height: 16pt;
             font-weight: 400;
             margin: 0;
         }
@@ -47,8 +47,8 @@ internal fun css(saksnummer: String): String {
           }
 
         .meldingOmVedtak__tekst-blokk h1 {
-            font-size: 16px;
-            line-height: 20px;
+            font-size: 16pt;
+            line-height: 20pt;
             font-weight: 700;
             margin: 0 0 26px 0;
             letter-spacing: 0.3px;
@@ -57,29 +57,29 @@ internal fun css(saksnummer: String): String {
         .meldingOmVedtak__tekst-blokk h2,
         .meldingOmVedtak__tekst-blokk h3,
         .meldingOmVedtak__tekst-blokk h4 {
-            line-height: 16px;
+            line-height: 16pt;
             font-weight: 700;
             margin: 0 0 6px 0;
         }
 
         .meldingOmVedtak__tekst-blokk h2 {
-            font-size: 13px;
+            font-size: 13pt;
             letter-spacing: 0.25px;
         }
 
         .meldingOmVedtak__tekst-blokk h3 {
-            font-size: 12px;
+            font-size: 12pt;
             letter-spacing: 0.2px;
         }
 
         .meldingOmVedtak__tekst-blokk h4 {
-            font-size: 11px;
+            font-size: 11pt;
             letter-spacing: 0.1px;
         }
 
         .meldingOmVedtak__tekst-blokk p {
-            font-size: 11px;
-            line-height: 16px;
+            font-size: 11pt;
+            line-height: 16pt;
             font-weight: 400;
         }
 
@@ -93,7 +93,7 @@ internal fun css(saksnummer: String): String {
             @bottom-right {
                 content: 'side ' counter(page) ' av ' counter(pages);
                 font-family: 'Source Sans 3', serif;
-                font-size: 9px;
+                font-size: 9pt;
                 padding-bottom: 26px;
                 padding-right: 8px;
             }
@@ -101,7 +101,7 @@ internal fun css(saksnummer: String): String {
             @bottom-left {
                 content: 'Saksnummer: $saksnummer';
                 font-family: 'Source Sans 3', serif;
-                font-size: 9px;
+                font-size: 9pt;
                 padding-bottom: 26px;
                 padding-left: 8px;
             }

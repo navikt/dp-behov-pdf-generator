@@ -64,7 +64,7 @@ internal object PdfBuilder {
                         )
                     }
                 }
-                    .useDefaultPageSize(157.7F, 223.4F, BaseRendererBuilder.PageSizeUnits.MM)
+//                    .useDefaultPageSize(157.7F, 223.4F, BaseRendererBuilder.PageSizeUnits.MM)
                     .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
                     .useSVGDrawer(BatikSVGDrawer())
                     .usePdfUaAccessbility(true)
