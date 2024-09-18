@@ -34,7 +34,8 @@ internal object Configuration {
     val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
 
     val dpMellomlagringTokenSupplier: () -> String = {
-        azureAdClient.clientCredentials(properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)]).accessToken
+        azureAdClient.clientCredentials(properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)])
+            .accessToken ?: throw RuntimeException("Unable to get token for dp-mellomlagring")
     }
 
     private val azureAdClient: CachedOauth2Client by lazy {
