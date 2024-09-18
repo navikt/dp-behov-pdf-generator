@@ -38,8 +38,8 @@ internal object PdfBuilder {
             ),
             Font(
                 family = "Source Sans 3",
-                path = "/fonts/static/SourceSans3-SemiBold.ttf",
-                weight = 600,
+                path = "/fonts/static/SourceSans3-Bold.ttf",
+                weight = 700,
                 style = BaseRendererBuilder.FontStyle.NORMAL,
                 subset = false,
             ),
@@ -64,7 +64,7 @@ internal object PdfBuilder {
                         )
                     }
                 }
-                    .useDefaultPageSize(144.6F, 204.7F, BaseRendererBuilder.PageSizeUnits.MM)
+                    .useDefaultPageSize(157.7F, 223.4F, BaseRendererBuilder.PageSizeUnits.MM)
                     .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
                     .useSVGDrawer(BatikSVGDrawer())
                     .usePdfUaAccessbility(true)

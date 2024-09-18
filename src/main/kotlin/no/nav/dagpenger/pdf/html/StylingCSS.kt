@@ -3,13 +3,11 @@ package no.nav.dagpenger.pdf.html
 internal fun css(saksnummer: String): String {
     // language=CSS
     return """
-        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
-                
         .melding-om-vedtak {
             font-family: 'Source Sans 3', sans-serif;
             font-size: 11px;
             line-height: 16px;
-            font-weight: normal;
+            font-weight: 400;
         }
 
         .melding-om-vedtak__header,
@@ -20,7 +18,7 @@ internal fun css(saksnummer: String): String {
         .melding-om-vedtak__header p {
             font-size: 11px;
             line-height: 16px;
-            font-weight: normal;
+            font-weight: 400;
             margin: 0;
         }
         
@@ -51,7 +49,7 @@ internal fun css(saksnummer: String): String {
         .meldingOmVedtak__tekst-blokk h1 {
             font-size: 16px;
             line-height: 20px;
-            font-weight: bold;
+            font-weight: 700;
             margin: 0 0 26px 0;
             letter-spacing: 0.3px;
         }
@@ -60,7 +58,7 @@ internal fun css(saksnummer: String): String {
         .meldingOmVedtak__tekst-blokk h3,
         .meldingOmVedtak__tekst-blokk h4 {
             line-height: 16px;
-            font-weight: bold;
+            font-weight: 700;
             margin: 0 0 6px 0;
         }
 
@@ -82,7 +80,7 @@ internal fun css(saksnummer: String): String {
         .meldingOmVedtak__tekst-blokk p {
             font-size: 11px;
             line-height: 16px;
-            font-weight: normal;
+            font-weight: 400;
         }
 
         .meldingOmVedtak__signatur {
@@ -90,8 +88,8 @@ internal fun css(saksnummer: String): String {
         }
 
         @page {
-            width: 200px;
-            height: 200px;
+            padding-bottom: 26px;
+            
             @bottom-right {
                 content: 'side ' counter(page) ' av ' counter(pages);
                 font-family: 'Source Sans 3', serif;
