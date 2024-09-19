@@ -1,6 +1,7 @@
 package no.nav.dagpenger.pdf.behovløser
 
 import io.kotest.assertions.json.shouldEqualSpecifiedJsonIgnoringOrder
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.ktor.util.encodeBase64
 import io.mockk.coEvery
@@ -120,5 +121,36 @@ class PdfBehovløserTest {
         )
 
         coVerify(exactly = 0) { mock.lagre(any(), any()) }
+    }
+
+    @Test
+    fun `Skal kaste feil når det oppstår feil ved generering eller lagring av pdf`() {
+        val htmlBrevAsBase64 =
+            """
+          tull
+        """.encodeBase64()
+
+        val ident = "12345"
+        val dokumentNavn = "vedtaksbrev.pdf"
+        val kontekst = "opppgave/oppgaveId"
+
+        val pdfLagring =
+            mockk<Lagring>().also {
+                coEvery { it.lagre(any(), any()) } throws RuntimeException("Feil ved lagring")
+            }
+
+        PdfBehovløser(testRapid, pdfLagring)
+        shouldThrow<RuntimeException> {
+            testRapid.sendTestMessage(
+                testMelding(
+                    htmlBrevAsBase64 = htmlBrevAsBase64,
+                    dokumentNavn = dokumentNavn,
+                    ident = ident,
+                    kontekst = kontekst,
+                    løsning = null,
+                    sakId = "saksnummer",
+                ),
+            )
+        }
     }
 }

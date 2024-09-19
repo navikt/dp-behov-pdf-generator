@@ -43,11 +43,11 @@ internal class PdfBehovløser(
     ) {
         withLoggingContext("id" to packet["@id"].asText()) {
             val ident = packet["ident"].asText()
-            val body = packet["htmlBase64"].asText().decodeBase64String()
+            val html = packet["htmlBase64"].asText().decodeBase64String()
             val dokumentNavn = packet["dokumentNavn"].asText()
             val kontekst = packet["kontekst"].asText()
             val saksnummer = packet["sak"]["id"].asText()
-            val pdf = PdfBuilder.lagPdf(html = lagHtml(saksnummer = saksnummer, htmlBody = body))
+            val pdf = PdfBuilder.lagPdf(html = lagHtml(saksnummer = saksnummer, htmlBody = html))
 
             val pdfDokument =
                 PdfDokument(
@@ -73,7 +73,8 @@ internal class PdfBehovløser(
                         )
                     context.publish(packet.toJson())
                 } catch (e: Exception) {
-                    sikkerlogg.error(e) { "Feil ved generering av pdf" }
+                    sikkerlogg.error(e) { "Feil ved generering av pdf. Html: $html" }
+                    throw e
                 }
             }
         }
