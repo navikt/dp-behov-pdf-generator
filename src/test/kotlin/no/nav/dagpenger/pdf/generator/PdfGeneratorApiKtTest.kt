@@ -22,9 +22,9 @@ class PdfGeneratorApiKtTest {
             client.post {
                 url(urlString = "/convert-html-to-pdf/saksnummer")
                 setBody("/html/enkel.html".les())
-            }.let {
-                it.status.value shouldBe 200
-                it.bodyAsChannel().toByteArray().let {
+            }.let { httpResponse ->
+                httpResponse.status.value shouldBe 200
+                httpResponse.bodyAsChannel().toByteArray().let {
                     File("build/test.pdf").writeBytes(it)
                 }
             }
