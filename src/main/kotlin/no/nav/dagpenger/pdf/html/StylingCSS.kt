@@ -115,5 +115,9 @@ internal fun css(saksnummer: String): String {
                 page-break-after: avoid;
             }
         }
+        
+        input {
+            min-height: 1.1em; /* Resolves getControlFont IndexOutOfBoundsException */
+        }
         """.trimIndent()
 }
