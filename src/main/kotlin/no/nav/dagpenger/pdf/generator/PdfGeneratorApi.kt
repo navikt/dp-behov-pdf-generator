@@ -19,8 +19,8 @@ fun Application.pdfGeneratorApi() {
     }
 
     routing {
-        post("/convert-html-to-pdf/{saksnummer}") {
-            val saksnummer = call.parameters.getOrFail("saksnummer")
+        post("/convert-html-to-pdf/{sakId}") {
+            val sakId = call.parameters.getOrFail("sakId")
             // Receive the HTML content as a string
             val htmlContent = call.receiveText()
 
@@ -28,7 +28,7 @@ fun Application.pdfGeneratorApi() {
                 call.respond(HttpStatusCode.BadRequest, "HTML content is empty")
                 return@post
             }
-            PdfBuilder.lagPdf(lagHtml(saksnummer = saksnummer, htmlBody = htmlContent)).let {
+            PdfBuilder.lagPdf(lagHtml(sakId = sakId, htmlBody = htmlContent)).let {
                 call.respond(HttpStatusCode.OK, it)
             }
         }

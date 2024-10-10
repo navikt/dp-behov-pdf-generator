@@ -13,11 +13,11 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 fun lagHtml(
-    saksnummer: String,
+    sakId: String,
     htmlBody: String,
 ): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
-        val css = css(saksnummer)
+        val css = css(sakId)
         lang = "no"
         head {
             title = "Dokument"

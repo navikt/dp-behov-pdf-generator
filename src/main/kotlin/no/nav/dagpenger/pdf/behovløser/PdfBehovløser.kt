@@ -46,8 +46,8 @@ internal class PdfBehovløser(
             val html = packet["htmlBase64"].asText().decodeBase64String()
             val dokumentNavn = packet["dokumentNavn"].asText()
             val kontekst = packet["kontekst"].asText()
-            val saksnummer = packet["sak"]["id"].asText()
-            val pdf = PdfBuilder.lagPdf(html = lagHtml(saksnummer = saksnummer, htmlBody = html))
+            val sakId = packet["sak"]["id"].asText()
+            val pdf = PdfBuilder.lagPdf(html = lagHtml(sakId = sakId, htmlBody = html))
 
             val pdfDokument =
                 PdfDokument(

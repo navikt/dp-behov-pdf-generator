@@ -1,6 +1,6 @@
 package no.nav.dagpenger.pdf.html
 
-internal fun css(saksnummer: String): String {
+internal fun css(sakId: String): String {
     // language=CSS
     return """
         .melding-om-vedtak {
@@ -99,7 +99,7 @@ internal fun css(saksnummer: String): String {
             }
 
             @bottom-left {
-                content: 'Saksnummer: $saksnummer';
+                content: 'Saksid: $sakId';
                 font-family: 'Source Sans 3', serif;
                 font-size: 9pt;
                 padding-bottom: 26px;
@@ -117,7 +117,9 @@ internal fun css(saksnummer: String): String {
         }
         
         input {
-            min-height: 1.1em; /* Resolves getControlFont IndexOutOfBoundsException */
+            /* Resolves getControlFont IndexOutOfBoundsException */
+            font-family: 'Source Sans 3', serif;
+            font-size: 9pt;
         }
         """.trimIndent()
 }
