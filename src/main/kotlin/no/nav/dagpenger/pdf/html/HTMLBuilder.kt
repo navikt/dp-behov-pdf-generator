@@ -17,7 +17,19 @@ fun lagHtml(
     htmlBody: String,
 ): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
-        val css = css(sakId)
+        val styleTagStart = htmlBody.indexOf("<style>")
+        val styleStart = styleTagStart + "<style>".length
+        val styleEnd = htmlBody.indexOf("</style>")
+        val styleTagEnd = styleEnd + "</style>".length
+
+        var css = css(sakId)
+        var html = htmlBody
+
+        if (styleTagStart > -1) {
+            css += htmlBody.substring(styleStart, styleEnd)
+            html = htmlBody.substring(styleTagEnd)
+        }
+
         lang = "no"
         head {
             title = "Dokument"
@@ -31,7 +43,7 @@ fun lagHtml(
             }
         }
         body {
-            unsafe { raw(htmlBody.clean()) }
+            unsafe { raw(html.clean()) }
         }
     }.let {
         val doc = Jsoup.parse(it)

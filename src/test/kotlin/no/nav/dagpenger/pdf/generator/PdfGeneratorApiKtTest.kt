@@ -30,4 +30,23 @@ class PdfGeneratorApiKtTest {
             }
         }
     }
+
+    @Test
+    fun `lage pdf via api med style`() {
+        testApplication {
+            application {
+                pdfGeneratorApi()
+            }
+
+            client.post {
+                url(urlString = "/convert-html-to-pdf/saksnummer")
+                setBody("/html/enkel_med_style.html".les())
+            }.let { httpResponse ->
+                httpResponse.status.value shouldBe 200
+                httpResponse.bodyAsChannel().toByteArray().let {
+                    File("build/test.pdf").writeBytes(it)
+                }
+            }
+        }
+    }
 }
