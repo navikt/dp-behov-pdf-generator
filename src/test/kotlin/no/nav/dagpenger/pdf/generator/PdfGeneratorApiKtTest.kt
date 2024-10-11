@@ -39,8 +39,8 @@ class PdfGeneratorApiKtTest {
             }
 
             client.post {
-                url(urlString = "/convert-html-to-pdf/saksnummer")
-                setBody("/html/enkel_med_style.html".les())
+                url(urlString = "/convert-html-to-pdf/saksnummer?css=.someClass { background-color: red; }")
+                setBody("/html/enkel.html".les())
             }.let { httpResponse ->
                 httpResponse.status.value shouldBe 200
                 httpResponse.bodyAsChannel().toByteArray().let {

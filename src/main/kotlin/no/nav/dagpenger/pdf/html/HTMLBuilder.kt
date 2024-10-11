@@ -15,20 +15,10 @@ import org.jsoup.nodes.Document
 fun lagHtml(
     sakId: String,
     htmlBody: String,
+    additionalCss: String = "",
 ): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
-        val styleTagStart = htmlBody.indexOf("<style>")
-        val styleStart = styleTagStart + "<style>".length
-        val styleEnd = htmlBody.indexOf("</style>")
-        val styleTagEnd = styleEnd + "</style>".length
-
-        var css = css(sakId)
-        var html = htmlBody
-
-        if (styleTagStart > -1) {
-            css += htmlBody.substring(styleStart, styleEnd)
-            html = htmlBody.substring(styleTagEnd)
-        }
+        val css = css(sakId) + additionalCss
 
         lang = "no"
         head {
@@ -43,7 +33,7 @@ fun lagHtml(
             }
         }
         body {
-            unsafe { raw(html.clean()) }
+            unsafe { raw(htmlBody.clean()) }
         }
     }.let {
         val doc = Jsoup.parse(it)
