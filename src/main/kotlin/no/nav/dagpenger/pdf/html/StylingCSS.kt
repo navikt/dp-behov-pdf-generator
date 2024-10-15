@@ -121,5 +121,9 @@ internal fun css(sakId: String): String {
             font-family: 'Source Sans 3', serif;
             font-size: 9pt;
         }
+                
+        svg {
+          display: inline-block;
+        }
         """.trimIndent()
 }
