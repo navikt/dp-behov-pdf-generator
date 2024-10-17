@@ -86,6 +86,11 @@ internal fun css(sakId: String): String {
         .meldingOmVedtak__signatur {
             margin-top: 32px;
         }
+        
+        .meldingOmVedtak__signatur p {
+          float: left;
+          width: 50%;
+        }
 
         @page {
             padding-bottom: 26px;
