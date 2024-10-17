@@ -83,13 +83,14 @@ internal fun css(sakId: String): String {
             font-weight: 400;
         }
 
-        .meldingOmVedtak__signatur {
-            margin-top: 32px;
+        .meldingOmVedtak__signatur-container {
+          margin-top: 32px;
         }
         
-        .meldingOmVedtak__signatur p {
+        .meldingOmVedtak__signatur {
           float: left;
           width: 50%;
+        
         }
 
         @page {
