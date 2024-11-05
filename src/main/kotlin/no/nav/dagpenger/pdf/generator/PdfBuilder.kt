@@ -17,7 +17,7 @@ internal object PdfBuilder {
 
             ByteArrayOutputStream().use {
                 PdfRendererBuilder()
-                    .useFont({ ByteArrayInputStream(font) }, "Open Sans")
+                    .useFont({ ByteArrayInputStream(font) }, "Lato")
                     .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
                     .useSVGDrawer(BatikSVGDrawer())
                     .usePdfUaAccessibility(true)
