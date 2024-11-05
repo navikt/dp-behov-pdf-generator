@@ -4,17 +4,20 @@ import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import mu.KotlinLogging
+import no.nav.dagpenger.pdf.utils.fileAsByteArray
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 internal object PdfBuilder {
     private val sikkerlogg = KotlinLogging.logger("tjenestekall")
 
     internal fun lagPdf(html: String): ByteArray {
         return try {
+            val font = this::class.java.getResource("/OpenSans-Regular.ttf")!!.readBytes()
+
             ByteArrayOutputStream().use {
                 PdfRendererBuilder()
-                    .useFont(File("src/main/resources/OpenSans-Regular.ttf"), "Open Sans")
+                    .useFont({ ByteArrayInputStream(font) }, "Open Sans")
                     .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
                     .useSVGDrawer(BatikSVGDrawer())
                     .usePdfUaAccessibility(true)
