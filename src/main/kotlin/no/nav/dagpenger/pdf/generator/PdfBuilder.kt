@@ -13,7 +13,7 @@ internal object PdfBuilder {
 
     internal fun lagPdf(html: String): ByteArray {
         return try {
-            val font = this::class.java.getResource("/OpenSans-Regular.ttf")!!.readBytes()
+            val font = this::class.java.getResource("/Lato-Regular.ttf")!!.readBytes()
 
             ByteArrayOutputStream().use {
                 PdfRendererBuilder()
