@@ -13,9 +13,8 @@ dependencies {
     implementation("io.ktor:ktor-serialization-jackson:${libs.versions.ktor.get()}")
     implementation(libs.dp.biblioteker.oauth2.klient)
 
-    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
-    implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.10")
-    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.10")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.22")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.22")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
     implementation("org.jsoup:jsoup:1.17.2")
 
