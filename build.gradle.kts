@@ -15,6 +15,7 @@ dependencies {
 
     implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.22")
     implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.22")
+    implementation("commons-io:commons-io:2.17.0") // For å fikse CVE-2024-47554 i openhtmltopdf-svg-support:1.1.22
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
     implementation("org.jsoup:jsoup:1.17.2")
 
