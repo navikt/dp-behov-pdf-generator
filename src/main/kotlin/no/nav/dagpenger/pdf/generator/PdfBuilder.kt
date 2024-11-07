@@ -7,7 +7,7 @@ import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import mu.KotlinLogging
 import no.nav.dagpenger.pdf.utils.fileAsByteArray
 import org.apache.fontbox.ttf.TTFParser
-import org.apache.pdfbox.io.RandomAccessReadBufferedFile
+import org.apache.pdfbox.io.RandomAccessReadBuffer
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.font.PDType0Font
 import java.io.ByteArrayOutputStream
@@ -58,9 +58,9 @@ internal object PdfBuilder {
                             val ttf =
                                 TTFParser()
                                     .parse(
-                                        RandomAccessReadBufferedFile("src/main/resources" + font.path),
+                                        RandomAccessReadBuffer(font.path.fileAsByteArray()),
                                     )
-                                    .also { it.isEnableGsub = false }
+                                    .also { ttf -> ttf.isEnableGsub = false }
                             useFont(
                                 PDFontSupplier(PDType0Font.load(PDDocument(), ttf, font.subset)),
                                 font.family,
