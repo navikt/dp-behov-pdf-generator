@@ -4,7 +4,7 @@ internal fun css(sakId: String): String {
     // language=CSS
     return """
         .melding-om-vedtak {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
             font-size: 11pt;
             line-height: 16pt;
             font-weight: 400;
@@ -98,7 +98,7 @@ internal fun css(sakId: String): String {
             
             @bottom-right {
                 content: 'side ' counter(page) ' av ' counter(pages);
-                font-family: 'Lato', serif;
+                font-family: 'Source Sans 3', serif;
                 font-size: 9pt;
                 padding-bottom: 26px;
                 padding-right: 8px;
@@ -106,7 +106,7 @@ internal fun css(sakId: String): String {
 
             @bottom-left {
                 content: 'Saksid: $sakId';
-                font-family: 'Lato', serif;
+                font-family: 'Source Sans 3', serif;
                 font-size: 9pt;
                 padding-bottom: 26px;
                 padding-left: 8px;
@@ -124,7 +124,7 @@ internal fun css(sakId: String): String {
         
         input {
             /* Resolves getControlFont IndexOutOfBoundsException */
-            font-family: 'Lato', serif;
+            font-family: 'Source Sans 3', serif;
             font-size: 9pt;
         }
                 
