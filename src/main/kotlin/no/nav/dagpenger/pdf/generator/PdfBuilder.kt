@@ -13,6 +13,7 @@ import org.apache.pdfbox.pdmodel.font.PDType0Font
 import java.io.ByteArrayOutputStream
 
 internal object PdfBuilder {
+    private val logg = KotlinLogging.logger {}
     private val sikkerlogg = KotlinLogging.logger("tjenestekall")
 
     private data class Font(
@@ -80,7 +81,8 @@ internal object PdfBuilder {
                 it.toByteArray()
             }
         } catch (e: Exception) {
-            sikkerlogg.error(e) { "Kunne ikke lage PDF av søknaden. HTML=$html" }
+            logg.error(e) { "Kunne ikke lage PDF" }
+            sikkerlogg.error(e) { "Kunne ikke lage PDF. HTML=$html" }
             throw e
         }
     }
