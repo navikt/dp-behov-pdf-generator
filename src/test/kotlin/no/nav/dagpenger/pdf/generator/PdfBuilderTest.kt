@@ -35,7 +35,7 @@ internal class PdfBuilderTest {
                     }.distinctBy { it.ruleId }
                 withClue(
                     "PDF-A verifisering feiler på :\n ${result.map { it.ruleId }}," +
-                        " se https://docs.verapdf.org/validation/pdfa-parts-2-and-3/",
+                        " se https://github.com/veraPDF/veraPDF-validation-profiles/wiki/PDFA-Parts-2-and-3-rules/",
                 ) {
                     result.isEmpty().shouldBeTrue()
                 }

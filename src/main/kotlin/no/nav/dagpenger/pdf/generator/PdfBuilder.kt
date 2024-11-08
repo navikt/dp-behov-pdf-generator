@@ -1,13 +1,19 @@
 package no.nav.dagpenger.pdf.generator
 
 import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder
+import com.openhtmltopdf.pdfboxout.PDFontSupplier
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import mu.KotlinLogging
+import no.nav.dagpenger.pdf.utils.fileAsByteArray
+import org.apache.fontbox.ttf.TTFParser
+import org.apache.pdfbox.io.RandomAccessReadBuffer
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.font.PDType0Font
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 
 internal object PdfBuilder {
+    private val logg = KotlinLogging.logger {}
     private val sikkerlogg = KotlinLogging.logger("tjenestekall")
 
     private data class Font(
@@ -16,9 +22,7 @@ internal object PdfBuilder {
         val weight: Int,
         val style: BaseRendererBuilder.FontStyle,
         val subset: Boolean,
-    ) {
-        fun inputStreamSupplier(): () -> InputStream = { path.fileAsInputStream() }
-    }
+    )
 
     private val fonts: List<Font> =
         listOf(
@@ -48,26 +52,27 @@ internal object PdfBuilder {
     internal fun lagPdf(html: String): ByteArray {
         return try {
             ByteArrayOutputStream().use {
-                PdfRendererBuilder().apply {
-                    fonts.forEach { font ->
-                        useFont(
-                            // supplier =
-                            font.inputStreamSupplier(),
-                            // fontFamily =
-                            font.family,
-                            // fontWeight =
-                            font.weight,
-                            // fontStyle =
-                            font.style,
-                            // subset =
-                            font.subset,
-                        )
+                PdfRendererBuilder()
+                    .apply {
+                        for (font in fonts) {
+                            val ttf =
+                                TTFParser()
+                                    .parse(
+                                        RandomAccessReadBuffer(font.path.fileAsByteArray()),
+                                    )
+                                    .also { ttf -> ttf.isEnableGsub = false }
+                            useFont(
+                                PDFontSupplier(PDType0Font.load(PDDocument(), ttf, font.subset)),
+                                font.family,
+                                font.weight,
+                                font.style,
+                                font.subset,
+                            )
+                        }
                     }
-                }
-//                    .useDefaultPageSize(157.7F, 223.4F, BaseRendererBuilder.PageSizeUnits.MM)
                     .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
                     .useSVGDrawer(BatikSVGDrawer())
-                    .usePdfUaAccessbility(true)
+                    .usePdfUaAccessibility(true)
                     .useColorProfile("/sRGB2014.icc".fileAsByteArray())
                     .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
                     .withHtmlContent(html, null)
@@ -76,7 +81,8 @@ internal object PdfBuilder {
                 it.toByteArray()
             }
         } catch (e: Exception) {
-            sikkerlogg.error(e) { "Kunne ikke lage PDF av søknaden. HTML=$html" }
+            logg.error(e) { "Kunne ikke lage PDF" }
+            sikkerlogg.error(e) { "Kunne ikke lage PDF. HTML=$html" }
             throw e
         }
     }
