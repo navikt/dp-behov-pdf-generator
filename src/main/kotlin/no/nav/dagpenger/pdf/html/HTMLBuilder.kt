@@ -20,8 +20,10 @@ fun lagHtml(
         val css = css(sakId)
         lang = "no"
         head {
-            title = "Dokument"
-            meta(name = "description", content = "Enkelt html")
+            title("Vedtak fra NAV")
+            meta(name = "description", content = "Vedtak fra NAV")
+            meta(name = "subject", content = "Vedtak fra NAV")
+            meta(name = "author", content = "NAV")
             style {
                 unsafe {
                     raw(
