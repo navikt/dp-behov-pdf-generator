@@ -41,11 +41,11 @@ internal class PdfBehovløser(
         packet: JsonMessage,
         context: MessageContext,
     ) {
-        withLoggingContext("id" to packet["@id"].asText()) {
+        val kontekst = packet["kontekst"].asText()
+        withLoggingContext("id" to packet["@id"].asText(), "kontekst" to kontekst) {
             val ident = packet["ident"].asText()
             val html = packet["htmlBase64"].asText().decodeBase64String()
             val dokumentNavn = packet["dokumentNavn"].asText()
-            val kontekst = packet["kontekst"].asText()
             val sakId = packet["sak"]["id"].asText()
             val pdf = PdfBuilder.lagPdf(html = lagHtml(sakId = sakId, htmlBody = html))
 
