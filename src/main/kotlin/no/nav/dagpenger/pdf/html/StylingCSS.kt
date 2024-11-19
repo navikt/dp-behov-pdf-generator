@@ -92,6 +92,10 @@ internal fun css(sakId: String): String {
           width: 50%;
         
         }
+        
+        ul, ol, li {
+            list-style-type: none;
+        }
 
         @page {
             padding-bottom: 26px;
