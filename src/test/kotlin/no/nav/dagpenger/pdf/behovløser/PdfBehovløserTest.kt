@@ -79,33 +79,6 @@ class PdfBehovløserTest {
                 """
     }
 
-    private fun testMelding(
-        htmlBrevAsBase64: String,
-        dokumentNavn: String,
-        ident: String,
-        kontekst: String,
-        løsning: String? = null,
-        sakId: String = "saksnummer",
-    ): String {
-        return """
-            {
-               "@event_name": "behov",
-               "@behov": [
-                 "PdfBehov"
-               ],
-               "htmlBase64": "$htmlBrevAsBase64",
-               "dokumentNavn": "$dokumentNavn",
-               "ident": "$ident",
-               "kontekst": "$kontekst",
-               "sak": {
-                 "id": "$sakId",
-                 "kontekst": "kontekst"
-                 }
-                ${løsning?.let { """",@løsning": $it"""" } ?: ""}
-            }
-            """.trimIndent()
-    }
-
     @Test
     fun `Skal ikke håndtere pakker der en løsning allerede finnes`() {
         val mock = mockk<Lagring>()
@@ -117,6 +90,40 @@ class PdfBehovløserTest {
                 ident = "123",
                 kontekst = "kontekst",
                 løsning = """{}""",
+            ),
+        )
+
+        coVerify(exactly = 0) { mock.lagre(any(), any()) }
+    }
+
+    @Test
+    fun `Skal ikke håndtere pakker der event name ikke er behov`() {
+        val mock = mockk<Lagring>()
+        PdfBehovløser(testRapid, mock)
+        testRapid.sendTestMessage(
+            testMelding(
+                eventName = "ikke_behov",
+                htmlBrevAsBase64 = "base64",
+                dokumentNavn = "dokumentNAvn",
+                ident = "123",
+                kontekst = "kontekst",
+            ),
+        )
+
+        coVerify(exactly = 0) { mock.lagre(any(), any()) }
+    }
+
+    @Test
+    fun `Skal ikke håndtere pakker der  behov ikke er PdfBehov`() {
+        val mock = mockk<Lagring>()
+        PdfBehovløser(testRapid, mock)
+        testRapid.sendTestMessage(
+            testMelding(
+                behov = "ikke_PdfBehov",
+                htmlBrevAsBase64 = "base64",
+                dokumentNavn = "dokumentNAvn",
+                ident = "123",
+                kontekst = "kontekst",
             ),
         )
 
@@ -152,5 +159,34 @@ class PdfBehovløserTest {
                 ),
             )
         }
+    }
+
+    private fun testMelding(
+        eventName: String = "behov",
+        behov: String = "PdfBehov",
+        htmlBrevAsBase64: String,
+        dokumentNavn: String,
+        ident: String,
+        kontekst: String,
+        løsning: String? = null,
+        sakId: String = "saksnummer",
+    ): String {
+        return """
+            {
+               "@event_name": "$eventName",
+               "@behov": [
+                 "$behov"
+               ],
+               "htmlBase64": "$htmlBrevAsBase64",
+               "dokumentNavn": "$dokumentNavn",
+               "ident": "$ident",
+               "kontekst": "$kontekst",
+               "sak": {
+                 "id": "$sakId",
+                 "kontekst": "kontekst"
+                 }
+                ${løsning?.let { """",@løsning": $it"""" } ?: ""}
+            }
+            """.trimIndent()
     }
 }
