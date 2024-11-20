@@ -1,12 +1,12 @@
 package no.nav.dagpenger.pdf
 
+import com.github.navikt.tbd_libs.rapids_and_rivers_api.RapidsConnection
 import mu.KotlinLogging
 import no.nav.dagpenger.pdf.behovløser.PdfBehovløser
 import no.nav.dagpenger.pdf.generator.pdfGeneratorApi
 import no.nav.dagpenger.pdf.lagring.Lagring
 import no.nav.dagpenger.pdf.lagring.LagringImpl
 import no.nav.helse.rapids_rivers.RapidApplication
-import no.nav.helse.rapids_rivers.RapidsConnection
 
 internal class ApplicationBuilder(
     config: Map<String, String>,
@@ -17,11 +17,12 @@ internal class ApplicationBuilder(
 
     private val rapidsConnection: RapidsConnection =
         RapidApplication
-            .Builder(RapidApplication.RapidApplicationConfig.fromEnv(config))
-            .withKtorModule {
-                pdfGeneratorApi()
-            }
-            .build()
+            .create(
+                env = config,
+                builder = {
+                    withKtorModule { pdfGeneratorApi() }
+                },
+            )
 
     private val lagring: Lagring by lazy {
         LagringImpl(

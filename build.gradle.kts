@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
     implementation("io.ktor:ktor-serialization-jackson:${libs.versions.ktor.get()}")
-    implementation(libs.dp.biblioteker.oauth2.klient)
+    implementation("no.nav.dagpenger:oauth2-klient:2024.10.31-15.02.1d4f08a38d24")
 
     implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.22")
     implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.22")
@@ -25,6 +25,7 @@ dependencies {
     testImplementation(libs.ktor.client.mock)
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.kotest.assertions)
+    testImplementation(libs.bundles.naisful.rapid.and.rivers.test)
 }
 
 application {

@@ -1,5 +1,6 @@
 package no.nav.dagpenger.pdf.behovløser
 
+import com.github.navikt.tbd_libs.rapids_and_rivers.test_support.TestRapid
 import io.kotest.assertions.json.shouldEqualSpecifiedJsonIgnoringOrder
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -11,7 +12,6 @@ import io.mockk.slot
 import no.nav.dagpenger.pdf.lagring.Lagring
 import no.nav.dagpenger.pdf.lagring.PdfDokument
 import no.nav.dagpenger.pdf.lagring.URNResponse
-import no.nav.helse.rapids_rivers.testsupport.TestRapid
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 

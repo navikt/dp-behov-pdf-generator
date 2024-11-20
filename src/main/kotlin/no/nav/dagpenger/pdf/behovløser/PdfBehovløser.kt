@@ -1,6 +1,12 @@
 package no.nav.dagpenger.pdf.behovløser
 
+import com.github.navikt.tbd_libs.rapids_and_rivers.JsonMessage
+import com.github.navikt.tbd_libs.rapids_and_rivers.River
+import com.github.navikt.tbd_libs.rapids_and_rivers_api.MessageContext
+import com.github.navikt.tbd_libs.rapids_and_rivers_api.MessageMetadata
+import com.github.navikt.tbd_libs.rapids_and_rivers_api.RapidsConnection
 import io.ktor.util.decodeBase64String
+import io.micrometer.core.instrument.MeterRegistry
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import mu.withLoggingContext
@@ -8,10 +14,6 @@ import no.nav.dagpenger.pdf.generator.PdfBuilder
 import no.nav.dagpenger.pdf.html.lagHtml
 import no.nav.dagpenger.pdf.lagring.Lagring
 import no.nav.dagpenger.pdf.lagring.PdfDokument
-import no.nav.helse.rapids_rivers.JsonMessage
-import no.nav.helse.rapids_rivers.MessageContext
-import no.nav.helse.rapids_rivers.RapidsConnection
-import no.nav.helse.rapids_rivers.River
 
 internal class PdfBehovløser(
     rapidsConnection: RapidsConnection,
@@ -23,10 +25,12 @@ internal class PdfBehovløser(
         const val BEHOV = "PdfBehov"
 
         val rapidFilter: River.() -> Unit = {
-            validate { it.demandValue("@event_name", "behov") }
-            validate { it.demandAll("@behov", listOf(BEHOV)) }
+            precondition {
+                validate { it.requireValue("@event_name", "behov") }
+                validate { it.requireAll("@behov", listOf(BEHOV)) }
+                validate { it.forbid("@løsning") }
+            }
             validate { it.requireKey("ident", "htmlBase64", "dokumentNavn", "kontekst", "sak") }
-            validate { it.rejectKey("@løsning") }
             validate { it.interestedIn("@id") }
         }
     }
@@ -40,6 +44,8 @@ internal class PdfBehovløser(
     override fun onPacket(
         packet: JsonMessage,
         context: MessageContext,
+        metadata: MessageMetadata,
+        meterRegistry: MeterRegistry,
     ) {
         val kontekst = packet["kontekst"].asText()
         withLoggingContext("id" to packet["@id"].asText(), "kontekst" to kontekst) {
