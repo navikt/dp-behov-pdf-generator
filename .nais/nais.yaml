@@ -14,14 +14,14 @@ spec:
   kafka:
     pool: {{ kafka_pool }}
   replicas:
-    min: 2
-    max: 2
+    min: 3
+    max: 6
   resources:
     limits:
-      memory: 512Mi
+      memory:  2000Mi
     requests:
-      cpu: 50m
-      memory: 256Mi
+      cpu: 200m
+      memory: 1000Mi
   secureLogs:
     enabled: true
   ingresses:
