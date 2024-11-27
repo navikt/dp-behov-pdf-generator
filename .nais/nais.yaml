@@ -27,6 +27,8 @@ spec:
   ingresses:
     - {{ ingress }}
   env:
+    - name: JDK_JAVA_OPTIONS
+      value: -XX:+UseParallelGC -XX:ActiveProcessorCount=4
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: {{ dp_mellomlagring_api_scope }}
   azure:
