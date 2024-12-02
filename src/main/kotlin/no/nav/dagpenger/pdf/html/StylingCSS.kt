@@ -94,7 +94,7 @@ internal fun css(sakId: String): String {
         }
         
         ul, ol, li {
-            list-style-type: none;
+            list-style-type: disc;
         }
 
         @page {
