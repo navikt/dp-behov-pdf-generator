@@ -15,9 +15,11 @@ import org.jsoup.nodes.Document
 fun lagHtml(
     sakId: String,
     htmlBody: String,
+    additionalCss: String = "",
 ): String {
     return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
-        val css = css(sakId)
+        val css = css(sakId) + additionalCss
+
         lang = "no"
         head {
             title("Vedtak fra NAV")
