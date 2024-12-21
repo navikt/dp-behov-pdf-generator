@@ -18,19 +18,23 @@ spec:
     max: 6
   resources:
     limits:
-      memory:  2000Mi
+      memory: 6144Mi
     requests:
-      cpu: 200m
-      memory: 1000Mi
+      cpu: 50m
+      memory: 512Mi
+  env:
+    # Ganske unik minne tuning for denne appen. Den trenger mye minne i korte perioder.
+    # 25% av 6144 = 1536Mi tilgjengelig for heap.
+    # InitiatingHeapOccupancyPercent = 25% betyr at GC starter når 25% av heap er brukt.
+    # 25% av 1536 = 384Mi. Det betyr at appen bør ligge på rundt 384Mi ved vanlig drift.
+    - name: JDK_JAVA_OPTIONS
+      value: -XX:+UseParallelGC -XX:ActiveProcessorCount=4 -XX:InitiatingHeapOccupancyPercent=25 -XX:MaxRAMPercentage=25.0
+    - name: DP_MELLOMLAGRING_API_SCOPE
+      value: {{ dp_mellomlagring_api_scope }}
   secureLogs:
     enabled: true
   ingresses:
     - {{ ingress }}
-  env:
-    - name: JDK_JAVA_OPTIONS
-      value: -XX:+UseParallelGC -XX:ActiveProcessorCount=4
-    - name: DP_MELLOMLAGRING_API_SCOPE
-      value: {{ dp_mellomlagring_api_scope }}
   azure:
     application:
       enabled: true
