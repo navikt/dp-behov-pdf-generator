@@ -89,7 +89,7 @@ class PdfBehovløserTest {
                 dokumentNavn = "dokumentNAvn",
                 ident = "123",
                 kontekst = "kontekst",
-                løsning = """{}""",
+                løsning = true,
             ),
         )
 
@@ -168,7 +168,7 @@ class PdfBehovløserTest {
         dokumentNavn: String,
         ident: String,
         kontekst: String,
-        løsning: String? = null,
+        løsning: Boolean? = null,
         sakId: String = "saksnummer",
     ): String {
         return """
@@ -185,7 +185,7 @@ class PdfBehovløserTest {
                  "id": "$sakId",
                  "kontekst": "kontekst"
                  }
-                ${løsning?.let { """",@løsning": $it"""" } ?: ""}
+                ${løsning?.let { ""","@løsning": $it""" } ?: ""}
             }
             """.trimIndent()
     }
