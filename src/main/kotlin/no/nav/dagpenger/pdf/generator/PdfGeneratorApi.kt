@@ -25,5 +25,18 @@ fun Application.pdfGeneratorApi() {
                 call.respond(HttpStatusCode.OK, it)
             }
         }
+
+        post("/convert-html-to-pdf") {
+            // Receive the HTML content as a string
+            val htmlContent = call.receiveText()
+
+            if (htmlContent.isBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "HTML content is empty")
+                return@post
+            }
+            PdfBuilder.lagPdf(htmlContent).let {
+                call.respond(HttpStatusCode.OK, it)
+            }
+        }
     }
 }
