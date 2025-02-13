@@ -56,7 +56,7 @@ internal class SaksbehandlingPdfBehovløser(
         meterRegistry: MeterRegistry,
     ) {
         val kontekst = packet["kontekst"].asText()
-        if (kontekst == "0194fa40-4c1d-75f6-bb83-cd9798442596") {
+        if (kontekst in listOf("oppgave/0194fa40-4c1d-75f6-bb83-cd9798442596", "oppgave/0194fb4e-fa61-7be5-bebb-c1b95b73d5b9")) {
             logg.warn { "Skipper oppgave: $kontekst" }
             return
         }
