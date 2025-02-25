@@ -90,7 +90,7 @@ internal class SaksbehandlingPdfBehovløser(
                                     "urn" to lagretDokument.urn,
                                 ),
                         )
-                    context.publish(packet.toJson())
+                    context.publish(ident, packet.toJson())
                 } catch (e: Exception) {
                     sikkerlogg.error(e) { "Feil ved generering av pdf. Html: $html" }
                     throw e
