@@ -5,7 +5,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            from("no.nav.dagpenger:dp-version-catalog:20250303.140.82ddc5")
+            from("no.nav.dagpenger:dp-version-catalog:20250313.146.aeb36f")
         }
     }
 }
