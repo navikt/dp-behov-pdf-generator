@@ -17,6 +17,7 @@ internal object Configuration {
                 "RAPID_APP_NAME" to APP_NAME,
                 "KAFKA_CONSUMER_GROUP_ID" to "$APP_NAME-v1",
                 "KAFKA_RAPID_TOPIC" to "teamdagpenger.rapid.v1",
+                "KAFKA_MAX_RECORDS" to "100",
                 "KAFKA_RESET_POLICY" to "latest",
                 "DP_MELLOMLAGRING_BASE_URL" to "http://dp-mellomlagring/v1/azuread/mellomlagring/vedlegg",
                 "DP_MELLOMLAGRING_API_SCOPE" to "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default",
