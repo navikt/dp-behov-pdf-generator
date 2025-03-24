@@ -36,9 +36,10 @@ internal class PdfBehovløser(
     }
 
     init {
-        River(rapidsConnection).apply {
-            rapidFilter()
-        }.register(this)
+        River(rapidsConnection)
+            .apply {
+                rapidFilter()
+            }.register(this)
     }
 
     override fun onPacket(
