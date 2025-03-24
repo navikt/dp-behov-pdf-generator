@@ -1,20 +1,27 @@
 package no.nav.dagpenger.pdf.generator
 
+import com.openhtmltopdf.extend.impl.FSDefaultCacheStore
 import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder
-import com.openhtmltopdf.pdfboxout.PDFontSupplier
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder.CacheStore.PDF_FONT_METRICS
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import mu.KotlinLogging
 import no.nav.dagpenger.pdf.utils.fileAsByteArray
 import org.apache.fontbox.ttf.TTFParser
 import org.apache.pdfbox.io.RandomAccessReadBuffer
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.font.PDType0Font
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileNotFoundException
 
 internal object PdfBuilder {
     private val logg = KotlinLogging.logger {}
     private val sikkerlogg = KotlinLogging.logger("tjenestekall")
+
+    fun getFileFromClasspath(fileName: String): File {
+        val resource = javaClass.getResource(fileName) ?: throw FileNotFoundException("Resource not found: $fileName")
+        return File(resource.toURI())
+    }
 
     private data class Font(
         val family: String,
@@ -57,6 +64,7 @@ internal object PdfBuilder {
         }
 
     private val colorProfile = "/sRGB2014.icc".fileAsByteArray()
+    private val cache = FSDefaultCacheStore()
 
     internal fun lagPdf(html: String): ByteArray =
         try {
@@ -66,7 +74,8 @@ internal object PdfBuilder {
                         .apply {
                             ttf.forEach { (font, ttf) ->
                                 useFont(
-                                    PDFontSupplier(PDType0Font.load(document, ttf, font.subset)),
+//                                    PDFontSupplier(PDType0Font.load(document, ttf, font.subset)),
+                                    getFileFromClasspath(font.path),
                                     font.family,
                                     font.weight,
                                     font.style,
@@ -77,6 +86,7 @@ internal object PdfBuilder {
                         .useSVGDrawer(BatikSVGDrawer())
                         .usePdfUaAccessibility(true)
                         .useColorProfile(colorProfile)
+                        .useCacheStore(PDF_FONT_METRICS, cache)
                         .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
                         .withHtmlContent(html, null)
 
