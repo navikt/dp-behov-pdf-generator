@@ -28,11 +28,13 @@ spec:
     # InitiatingHeapOccupancyPercent = 25% betyr at GC starter når 25% av heap er brukt.
     # 25% av 1536 = 384Mi. Det betyr at appen bør ligge på rundt 384Mi ved vanlig drift.
     - name: JDK_JAVA_OPTIONS
-      value: -XX:+UseParallelGC -XX:ActiveProcessorCount=4 -XX:InitiatingHeapOccupancyPercent=25 -XX:MaxRAMPercentage=25.0
+      value: >-
+        -XX:+UseParallelGC 
+        -XX:ActiveProcessorCount=4 
+        -XX:MaxRAMPercentage=25.0 
+        -agentpath:/opt/cprof/profiler_java_agent.so=-cprof_service=dp-behov-pdf-generator,-cprof_enable_heap_sampling=true,-logtostderr,-minloglevel=0,-cprof_project_id=teamdagpenger-prod-9042
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: {{ dp_mellomlagring_api_scope }}
-    - name: JAVA_OPTS
-      value: -agentpath:/opt/cprof/profiler_java_agent.so=-cprof_service=dp-behov-pdf-generator,-cprof_enable_heap_sampling=true,-logtostderr,-minloglevel=0,-cprof_project_id=teamdagpenger-prod-9042
   secureLogs:
     enabled: true
   ingresses:
