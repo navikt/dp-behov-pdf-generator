@@ -65,22 +65,22 @@ internal class LagringImpl(
     override suspend fun lagre(
         kontekst: String,
         pdfDokument: PdfDokument,
-    ): List<URNResponse> =
-        httpKlient
-            .submitFormWithBinaryData(
-                url = "$baseUrl/$kontekst",
-                formData =
-                    formData {
-                        append(
-                            pdfDokument.navn,
-                            pdfDokument.pdf,
-                            Headers.build {
-                                append(HttpHeaders.ContentType, ContentType.Application.Pdf.toString())
-                                append(HttpHeaders.ContentDisposition, "filename=${pdfDokument.navn}")
-                            },
-                        )
-                    },
-            ) {
-                this.header("X-Eier", pdfDokument.eier)
-            }.body<List<URNResponse>>()
+    ): List<URNResponse> {
+        return httpKlient.submitFormWithBinaryData(
+            url = "$baseUrl/$kontekst",
+            formData =
+                formData {
+                    append(
+                        pdfDokument.navn,
+                        pdfDokument.pdf,
+                        Headers.build {
+                            append(HttpHeaders.ContentType, ContentType.Application.Pdf.toString())
+                            append(HttpHeaders.ContentDisposition, "filename=${pdfDokument.navn}")
+                        },
+                    )
+                },
+        ) {
+            this.header("X-Eier", pdfDokument.eier)
+        }.body<List<URNResponse>>()
+    }
 }
