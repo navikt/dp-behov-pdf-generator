@@ -49,38 +49,43 @@ internal object PdfBuilder {
             ),
         )
 
-    private val ttf by lazy {
+    private val ttf =
         fonts.associateWith { front ->
             TTFParser()
                 .parse(RandomAccessReadBuffer(front.path.fileAsByteArray()))
-                .also { ttf -> ttf.isEnableGsub = false }
+                .apply { isEnableGsub = false }
         }
-    }
-    private val colorProfile by lazy { "/sRGB2014.icc".fileAsByteArray() }
+
+    private val colorProfile = "/sRGB2014.icc".fileAsByteArray()
 
     internal fun lagPdf(html: String): ByteArray =
         try {
-            ByteArrayOutputStream().use {
-                PdfRendererBuilder()
-                    .apply {
-                        ttf.forEach { (font, ttf) ->
-                            useFont(
-                                PDFontSupplier(PDType0Font.load(PDDocument(), ttf, font.subset)),
-                                font.family,
-                                font.weight,
-                                font.style,
-                                font.subset,
-                            )
-                        }
-                    }.usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
-                    .useSVGDrawer(BatikSVGDrawer())
-                    .usePdfUaAccessibility(true)
-                    .useColorProfile(colorProfile)
-                    .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
-                    .withHtmlContent(html, null)
-                    .toStream(it)
-                    .run()
-                it.toByteArray()
+            PDDocument().use { document ->
+                val builder =
+                    PdfRendererBuilder()
+                        .apply {
+                            ttf.forEach { (font, ttf) ->
+                                useFont(
+                                    PDFontSupplier(PDType0Font.load(document, ttf, font.subset)),
+                                    font.family,
+                                    font.weight,
+                                    font.style,
+                                    font.subset,
+                                )
+                            }
+                        }.usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
+                        .useSVGDrawer(BatikSVGDrawer())
+                        .usePdfUaAccessibility(true)
+                        .useColorProfile(colorProfile)
+                        .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
+                        .withHtmlContent(html, null)
+
+                ByteArrayOutputStream().use {
+                    builder
+                        .toStream(it)
+                        .run()
+                    it.toByteArray()
+                }
             }
         } catch (e: Exception) {
             logg.error(e) { "Kunne ikke lage PDF" }
