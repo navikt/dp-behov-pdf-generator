@@ -49,18 +49,21 @@ internal object PdfBuilder {
             ),
         )
 
-    internal fun lagPdf(html: String): ByteArray {
-        return try {
+    private val ttf by lazy {
+        fonts.associateWith { front ->
+            TTFParser()
+                .parse(RandomAccessReadBuffer(front.path.fileAsByteArray()))
+                .also { ttf -> ttf.isEnableGsub = false }
+        }
+    }
+    private val colorProfile by lazy { "/sRGB2014.icc".fileAsByteArray() }
+
+    internal fun lagPdf(html: String): ByteArray =
+        try {
             ByteArrayOutputStream().use {
                 PdfRendererBuilder()
                     .apply {
-                        for (font in fonts) {
-                            val ttf =
-                                TTFParser()
-                                    .parse(
-                                        RandomAccessReadBuffer(font.path.fileAsByteArray()),
-                                    )
-                                    .also { ttf -> ttf.isEnableGsub = false }
+                        ttf.forEach { (font, ttf) ->
                             useFont(
                                 PDFontSupplier(PDType0Font.load(PDDocument(), ttf, font.subset)),
                                 font.family,
@@ -69,11 +72,10 @@ internal object PdfBuilder {
                                 font.subset,
                             )
                         }
-                    }
-                    .usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
+                    }.usePdfAConformance(PdfRendererBuilder.PdfAConformance.PDFA_2_U)
                     .useSVGDrawer(BatikSVGDrawer())
                     .usePdfUaAccessibility(true)
-                    .useColorProfile("/sRGB2014.icc".fileAsByteArray())
+                    .useColorProfile(colorProfile)
                     .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
                     .withHtmlContent(html, null)
                     .toStream(it)
@@ -85,5 +87,4 @@ internal object PdfBuilder {
             sikkerlogg.error(e) { "Kunne ikke lage PDF. HTML=$html" }
             throw e
         }
-    }
 }
