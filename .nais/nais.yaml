@@ -31,6 +31,8 @@ spec:
       value: -XX:+UseParallelGC -XX:ActiveProcessorCount=4 -XX:InitiatingHeapOccupancyPercent=25 -XX:MaxRAMPercentage=25.0
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: {{ dp_mellomlagring_api_scope }}
+    - name: JAVA_OPTS
+      value: -agentpath:/opt/cprof/profiler_java_agent.so=-cprof_service=dp-behov-pdf-generator,-cprof_enable_heap_sampling=true,-logtostderr,-minloglevel=0,-cprof_project_id=teamdagpenger-prod-9042
   secureLogs:
     enabled: true
   ingresses:
