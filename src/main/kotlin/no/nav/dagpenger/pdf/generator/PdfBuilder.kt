@@ -13,6 +13,7 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.InputStream
 
 internal object PdfBuilder {
     private val logg = KotlinLogging.logger {}
@@ -29,7 +30,10 @@ internal object PdfBuilder {
         val weight: Int,
         val style: BaseRendererBuilder.FontStyle,
         val subset: Boolean,
-    )
+    ) {
+        fun inputStreamSupplier(): () -> InputStream = { path.fileAsInputStream() }
+
+    }
 
     private val fonts: List<Font> =
         listOf(
@@ -74,8 +78,7 @@ internal object PdfBuilder {
                         .apply {
                             ttf.forEach { (font, ttf) ->
                                 useFont(
-//                                    PDFontSupplier(PDType0Font.load(document, ttf, font.subset)),
-                                    getFileFromClasspath(font.path),
+                                    font.inputStreamSupplier(),
                                     font.family,
                                     font.weight,
                                     font.style,
