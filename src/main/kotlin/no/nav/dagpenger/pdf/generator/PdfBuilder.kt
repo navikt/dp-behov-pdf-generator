@@ -32,7 +32,6 @@ internal object PdfBuilder {
         val subset: Boolean,
     ) {
         fun inputStreamSupplier(): () -> InputStream = { path.fileAsInputStream() }
-
     }
 
     private val fonts: List<Font> =
