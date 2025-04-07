@@ -23,8 +23,10 @@ internal class SaksbehandlingPdfBehovløser(
         private val logg = KotlinLogging.logger {}
         private val sikkerlogg = KotlinLogging.logger("tjenestekall")
         const val BEHOV = "SaksbehandlingPdfBehov"
+    }
 
-        val rapidFilter: River.() -> Unit = {
+    init {
+        River(rapidsConnection).apply {
             precondition {
                 validate { it.requireValue("@event_name", "behov") }
                 validate { it.requireAll("@behov", listOf(BEHOV)) }
@@ -32,12 +34,6 @@ internal class SaksbehandlingPdfBehovløser(
             }
             validate { it.requireKey("ident", "htmlBase64", "dokumentNavn", "kontekst") }
             validate { it.interestedIn("@id") }
-        }
-    }
-
-    init {
-        River(rapidsConnection).apply {
-            rapidFilter()
         }.register(this)
     }
 
