@@ -37,14 +37,6 @@ internal class SaksbehandlingPdfBehovløser(
         }.register(this)
     }
 
-    override fun onError(
-        problems: MessageProblems,
-        context: MessageContext,
-        metadata: MessageMetadata,
-    ) {
-        super.onError(problems, context, metadata)
-    }
-
     override fun onPacket(
         packet: JsonMessage,
         context: MessageContext,
