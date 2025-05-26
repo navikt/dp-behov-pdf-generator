@@ -6,13 +6,13 @@ metadata:
   labels:
     team: teamdagpenger
 spec:
-  image: {{ image }}
+  image: "{{ image }}"
   port: 8080
   prometheus:
     enabled: true
     path: /metrics
   kafka:
-    pool: {{ kafka_pool }}
+    pool: "{{ kafka_pool }}"
   replicas:
     min: 3
     max: 6
@@ -37,7 +37,7 @@ spec:
         -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=localhost
         -Dcom.sun.management.jmxremote.rmi.port=9999
     - name: DP_MELLOMLAGRING_API_SCOPE
-      value: {{ dp_mellomlagring_api_scope }}
+      value: "{{ dp_mellomlagring_api_scope }}"
   secureLogs:
     enabled: true
   ingresses:
