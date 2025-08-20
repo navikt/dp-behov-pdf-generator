@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
     implementation("io.ktor:ktor-serialization-jackson:${libs.versions.ktor.get()}")
-    implementation("no.nav.dagpenger:oauth2-klient:2025.07.23-08.30.31e64aee9725")
+    implementation("no.nav.dagpenger:oauth2-klient:2025.08.20-08.53.9250ac7fbd99")
 
     implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.22")
     implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.22")
