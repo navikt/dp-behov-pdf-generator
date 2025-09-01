@@ -4,7 +4,7 @@ import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder
 import com.openhtmltopdf.pdfboxout.PDFontSupplier
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.dagpenger.pdf.utils.fileAsByteArray
 import org.apache.fontbox.ttf.TTFParser
 import org.apache.pdfbox.io.RandomAccessReadBuffer

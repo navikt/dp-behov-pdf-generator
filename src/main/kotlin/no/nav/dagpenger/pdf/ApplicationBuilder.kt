@@ -1,7 +1,7 @@
 package no.nav.dagpenger.pdf
 
 import com.github.navikt.tbd_libs.rapids_and_rivers_api.RapidsConnection
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import no.nav.dagpenger.pdf.behovløser.PdfBehovløser
 import no.nav.dagpenger.pdf.behovløser.SaksbehandlingPdfBehovløser
 import no.nav.dagpenger.pdf.generator.pdfGeneratorApi
