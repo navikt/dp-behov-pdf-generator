@@ -1,5 +1,7 @@
 # dp-behov-pdf-generator
 
+Genererer PDF-filer fra html, basert på behovsmeldinger.
+
 ## Komme i gang
 
 Gradle brukes som byggverktøy og er bundlet inn.
@@ -12,8 +14,5 @@ Gradle brukes som byggverktøy og er bundlet inn.
 Spørsmål knyttet til koden eller prosjektet kan rettes til:
 
 * André Roaldseth, andre.roaldseth@nav.no
-* Eller en annen måte for omverden å kontakte teamet på
+* NAV-intern slack-kanal: #team-dagpenger-behandling
 
-## For NAV-ansatte
-
-Interne henvendelser kan sendes via Slack i kanalen #po-arbeid-dev.
