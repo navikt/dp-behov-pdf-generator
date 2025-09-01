@@ -24,7 +24,7 @@ class SaksbehandlingPdfBehovløserTest {
     private val slot = slot<PdfDokument>()
     private val ident = "12345"
     private val dokumentNavn = "vedtaksbrev.pdf"
-    private val kontekst = "opppgave/oppgaveId"
+    private val kontekst = "behandling/behandlingId"
     private val htmlBrevAsBase64 =
         """
           <html><body><h1>Hei</h1></body></html>

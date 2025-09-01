@@ -28,7 +28,7 @@ class PdfBehovløserTest {
 
         val ident = "12345"
         val dokumentNavn = "vedtaksbrev.pdf"
-        val kontekst = "opppgave/oppgaveId"
+        val kontekst = "behandling/behandlingId"
 
         val slot = slot<PdfDokument>()
         val pdfLagring =
@@ -139,7 +139,7 @@ class PdfBehovløserTest {
 
         val ident = "12345"
         val dokumentNavn = "vedtaksbrev.pdf"
-        val kontekst = "opppgave/oppgaveId"
+        val kontekst = "behandling/behandlingId"
 
         val pdfLagring =
             mockk<Lagring>().also {
