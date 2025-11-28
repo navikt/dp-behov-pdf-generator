@@ -43,22 +43,23 @@ internal class LagringImplTest {
                         },
                 )
 
-            lagringImpl.lagre(
-                "kontekst",
-                PdfDokument(
-                    navn = "navn",
-                    eier = eier,
-                    pdf = "pdf".toByteArray(),
-                ),
-            ).let { response ->
-                response.size shouldBe 1
-                with(response.first()) {
-                    filnavn shouldBe "navn.pdf"
-                    urn shouldBe "urn:konteskst:navn.pdf"
-                    filsti shouldBe "filsti"
-                    storrelse shouldBe 123
+            lagringImpl
+                .lagre(
+                    "kontekst",
+                    PdfDokument(
+                        navn = "navn",
+                        eier = eier,
+                        pdf = "pdf".toByteArray(),
+                    ),
+                ).let { response ->
+                    response.size shouldBe 1
+                    with(response.first()) {
+                        filnavn shouldBe "navn.pdf"
+                        urn shouldBe "urn:konteskst:navn.pdf"
+                        filsti shouldBe "filsti"
+                        storrelse shouldBe 123
+                    }
                 }
-            }
 
             requireNotNull(httpRequestData)
             httpRequestData?.let {

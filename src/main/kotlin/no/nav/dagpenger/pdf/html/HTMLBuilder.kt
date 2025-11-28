@@ -15,32 +15,32 @@ import org.jsoup.nodes.Document
 fun lagHtml(
     sakId: String,
     htmlBody: String,
-): String {
-    return createHTML(prettyPrint = false, xhtmlCompatible = true).html {
-        val css = css(sakId)
-        lang = "no"
-        head {
-            title("Vedtak fra NAV")
-            meta(name = "description", content = "Vedtak fra NAV")
-            meta(name = "subject", content = "Vedtak fra NAV")
-            meta(name = "author", content = "NAV")
-            style {
-                unsafe {
-                    raw(
-                        css,
-                    )
+): String =
+    createHTML(prettyPrint = false, xhtmlCompatible = true)
+        .html {
+            val css = css(sakId)
+            lang = "no"
+            head {
+                title("Vedtak fra NAV")
+                meta(name = "description", content = "Vedtak fra NAV")
+                meta(name = "subject", content = "Vedtak fra NAV")
+                meta(name = "author", content = "NAV")
+                style {
+                    unsafe {
+                        raw(
+                            css,
+                        )
+                    }
                 }
             }
+            body {
+                unsafe { raw(htmlBody.clean()) }
+            }
+        }.let {
+            val doc = Jsoup.parse(it)
+            doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
+            doc.html()
         }
-        body {
-            unsafe { raw(htmlBody.clean()) }
-        }
-    }.let {
-        val doc = Jsoup.parse(it)
-        doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
-        doc.html()
-    }
-}
 
 private fun String.clean() =
     this

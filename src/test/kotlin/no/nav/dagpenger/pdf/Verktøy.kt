@@ -4,9 +4,7 @@ import java.io.File
 
 private val resourceRetriever = object {}.javaClass
 
-internal fun String.les(): String {
-    return resourceRetriever.getResource(this)!!.readText()
-}
+internal fun String.les(): String = resourceRetriever.getResource(this)!!.readText()
 
 internal fun ByteArray.skrivTilFil(s: String) {
     File(s).writeBytes(this)

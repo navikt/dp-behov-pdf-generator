@@ -26,15 +26,16 @@ internal class PdfBehovløser(
     }
 
     init {
-        River(rapidsConnection).apply {
-            precondition {
-                validate { it.requireValue("@event_name", "behov") }
-                validate { it.requireAll("@behov", listOf(BEHOV)) }
-                validate { it.forbid("@løsning") }
-            }
-            validate { it.requireKey("ident", "htmlBase64", "dokumentNavn", "kontekst", "sak") }
-            validate { it.interestedIn("@id") }
-        }.register(this)
+        River(rapidsConnection)
+            .apply {
+                precondition {
+                    validate { it.requireValue("@event_name", "behov") }
+                    validate { it.requireAll("@behov", listOf(BEHOV)) }
+                    validate { it.forbid("@løsning") }
+                }
+                validate { it.requireKey("ident", "htmlBase64", "dokumentNavn", "kontekst", "sak") }
+                validate { it.interestedIn("@id") }
+            }.register(this)
     }
 
     override fun onPacket(

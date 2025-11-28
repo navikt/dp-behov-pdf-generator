@@ -117,19 +117,18 @@ class SaksbehandlingPdfBehovløserTest {
         ident: String = this.ident,
         kontekst: String = this.kontekst,
         løsning: Boolean? = null,
-    ): String {
-        return """
-            {
-               "@event_name": "$eventName",
-               "@behov": [
-                 "$behov"
-               ],
-               "htmlBase64": "$htmlBrevAsBase64",
-               "dokumentNavn": "$dokumentNavn",
-               "ident": "$ident",
-               "kontekst": "$kontekst"
-                ${løsning?.let { ""","@løsning": $it""" } ?: ""}
-            }
-            """.trimIndent()
-    }
+    ): String =
+        """
+        {
+           "@event_name": "$eventName",
+           "@behov": [
+             "$behov"
+           ],
+           "htmlBase64": "$htmlBrevAsBase64",
+           "dokumentNavn": "$dokumentNavn",
+           "ident": "$ident",
+           "kontekst": "$kontekst"
+            ${løsning?.let { ""","@løsning": $it""" } ?: ""}
+        }
+        """.trimIndent()
 }

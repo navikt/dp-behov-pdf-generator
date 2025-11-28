@@ -35,7 +35,8 @@ internal object Configuration {
     val dpMellomlagringBaseUrl = properties[Key("DP_MELLOMLAGRING_BASE_URL", stringType)]
 
     val dpMellomlagringTokenSupplier: () -> String = {
-        azureAdClient.clientCredentials(properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)])
+        azureAdClient
+            .clientCredentials(properties[Key("DP_MELLOMLAGRING_API_SCOPE", stringType)])
             .access_token ?: throw RuntimeException("Unable to get token for dp-mellomlagring")
     }
 

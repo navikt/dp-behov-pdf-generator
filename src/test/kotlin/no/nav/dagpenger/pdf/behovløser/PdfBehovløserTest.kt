@@ -170,23 +170,22 @@ class PdfBehovløserTest {
         kontekst: String,
         løsning: Boolean? = null,
         sakId: String = "saksnummer",
-    ): String {
-        return """
-            {
-               "@event_name": "$eventName",
-               "@behov": [
-                 "$behov"
-               ],
-               "htmlBase64": "$htmlBrevAsBase64",
-               "dokumentNavn": "$dokumentNavn",
-               "ident": "$ident",
-               "kontekst": "$kontekst",
-               "sak": {
-                 "id": "$sakId",
-                 "kontekst": "kontekst"
-                 }
-                ${løsning?.let { ""","@løsning": $it""" } ?: ""}
-            }
-            """.trimIndent()
-    }
+    ): String =
+        """
+        {
+           "@event_name": "$eventName",
+           "@behov": [
+             "$behov"
+           ],
+           "htmlBase64": "$htmlBrevAsBase64",
+           "dokumentNavn": "$dokumentNavn",
+           "ident": "$ident",
+           "kontekst": "$kontekst",
+           "sak": {
+             "id": "$sakId",
+             "kontekst": "kontekst"
+             }
+            ${løsning?.let { ""","@løsning": $it""" } ?: ""}
+        }
+        """.trimIndent()
 }

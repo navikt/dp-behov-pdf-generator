@@ -30,9 +30,12 @@ internal class PdfBuilderTest {
             val validator = foundry.createValidator(PDFAFlavour.PDFA_2_U, true)
             foundry.createParser(pdfInputStream, PDFAFlavour.PDFA_2_U).also { parser ->
                 val result =
-                    validator.validate(parser).testAssertions.filter {
-                        it.status == TestAssertion.Status.FAILED
-                    }.distinctBy { it.ruleId }
+                    validator
+                        .validate(parser)
+                        .testAssertions
+                        .filter {
+                            it.status == TestAssertion.Status.FAILED
+                        }.distinctBy { it.ruleId }
                 withClue(
                     "PDF-A verifisering feiler på :\n ${result.map { it.ruleId }}," +
                         " se https://github.com/veraPDF/veraPDF-validation-profiles/wiki/PDFA-Parts-2-and-3-rules/",

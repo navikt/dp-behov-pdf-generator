@@ -19,15 +19,16 @@ class PdfGeneratorApiKtTest {
                 pdfGeneratorApi()
             }
 
-            client.post {
-                url(urlString = "/convert-html-to-pdf/saksnummer")
-                setBody("/html/enkel.html".les())
-            }.let { httpResponse ->
-                httpResponse.status.value shouldBe 200
-                httpResponse.bodyAsChannel().toByteArray().let {
-                    File("build/testApi.pdf").writeBytes(it)
+            client
+                .post {
+                    url(urlString = "/convert-html-to-pdf/saksnummer")
+                    setBody("/html/enkel.html".les())
+                }.let { httpResponse ->
+                    httpResponse.status.value shouldBe 200
+                    httpResponse.bodyAsChannel().toByteArray().let {
+                        File("build/testApi.pdf").writeBytes(it)
+                    }
                 }
-            }
         }
     }
 }
