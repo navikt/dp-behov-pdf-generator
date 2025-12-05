@@ -1,5 +1,6 @@
 package no.nav.dagpenger.pdf.generator
 
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.withClue
 import io.kotest.matchers.booleans.shouldBeTrue
 import no.nav.dagpenger.pdf.html.lagHtml
@@ -13,6 +14,15 @@ import org.verapdf.pdfa.results.TestAssertion
 import java.io.ByteArrayInputStream
 
 internal class PdfBuilderTest {
+    @Test
+    fun `Skal håntere HTML med spesialtegn`() {
+        val html = "/html/spesialtegn.html".les()
+        shouldNotThrowAny {
+            val pdf = PdfBuilder.lagPdf(html)
+            pdf.skrivTilFil("build/spesialtegn.pdf")
+        }
+    }
+
     @Test
     fun `Kan lage PDF som møter PdfA og UA-standardene fra enkel HTML`() {
         val htmlBody = "/html/enkel.html".les()

@@ -5,6 +5,7 @@ import com.openhtmltopdf.pdfboxout.PDFontSupplier
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import io.github.oshai.kotlinlogging.KotlinLogging
+import no.nav.dagpenger.pdf.html.cleanHtml
 import no.nav.dagpenger.pdf.utils.fileAsByteArray
 import org.apache.fontbox.ttf.TTFParser
 import org.apache.pdfbox.io.RandomAccessReadBuffer
@@ -60,6 +61,7 @@ internal object PdfBuilder {
 
     internal fun lagPdf(html: String): ByteArray =
         try {
+            val cleanHtml = html.cleanHtml()
             PDDocument().use { document ->
                 val builder =
                     PdfRendererBuilder()
@@ -78,7 +80,7 @@ internal object PdfBuilder {
                         .usePdfUaAccessibility(true)
                         .useColorProfile(colorProfile)
                         .defaultTextDirection(BaseRendererBuilder.TextDirection.LTR)
-                        .withHtmlContent(html, null)
+                        .withHtmlContent(cleanHtml, null)
 
                 ByteArrayOutputStream().use {
                     builder

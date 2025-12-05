@@ -34,7 +34,7 @@ fun lagHtml(
                 }
             }
             body {
-                unsafe { raw(htmlBody.clean()) }
+                unsafe { raw(htmlBody.cleanHtml()) }
             }
         }.let {
             val doc = Jsoup.parse(it)
@@ -42,7 +42,7 @@ fun lagHtml(
             doc.html()
         }
 
-private fun String.clean() =
+fun String.cleanHtml() =
     this
         .replace("&nbsp;", " ")
         .replace("\u001d", "") // Group separator character
