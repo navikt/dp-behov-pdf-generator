@@ -49,6 +49,7 @@ spec:
     inbound:
       rules:
         - application: dp-rapportering
+        - application: dp-melding-om-vedtak
     outbound:
       rules:
         - application: dp-mellomlagring
