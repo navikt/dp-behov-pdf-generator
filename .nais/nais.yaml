@@ -38,8 +38,6 @@ spec:
         -Dcom.sun.management.jmxremote.rmi.port=9999
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: "{{ dp_mellomlagring_api_scope }}"
-  secureLogs:
-    enabled: true
   ingresses:
     - {{ ingress }}
   azure:
