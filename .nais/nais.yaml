@@ -20,7 +20,7 @@ spec:
     limits:
       memory: 6144Mi
     requests:
-      cpu: 50m
+      cpu: 190m
       memory: 512Mi
   env:
     # Ganske unik minne tuning for denne appen. Den trenger mye minne i korte perioder.
