@@ -23,19 +23,15 @@ spec:
       cpu: 190m
       memory: 512Mi
   env:
-    # Ganske unik minne tuning for denne appen. Den trenger mye minne i korte perioder.
-    # 25% av 6144 = 1536Mi tilgjengelig for heap.
-    # InitiatingHeapOccupancyPercent = 25% betyr at GC starter når 25% av heap er brukt.
-    # 25% av 1536 = 384Mi. Det betyr at appen bør ligge på rundt 384Mi ved vanlig drift.
+    # ZGC gir sub-millisekund GC-pauser uavhengig av heap-størrelse.
+    # Godt egnet for denne appen som konstant allokerer og forkaster store JSON-objekter
+    # fra rapids-topicet, i tillegg til kortvarige minnetopper ved PDF-generering.
+    # 50% av 6144 = 3072Mi tilgjengelig for heap.
     - name: JDK_JAVA_OPTIONS
       value: >-
-        -XX:+UseParallelGC
+        -XX:+UseZGC
         -XX:ActiveProcessorCount=4
-        -XX:MaxRAMPercentage=25.0
-        -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9999
-        -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
-        -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=localhost
-        -Dcom.sun.management.jmxremote.rmi.port=9999
+        -XX:MaxRAMPercentage=50.0
     - name: DP_MELLOMLAGRING_API_SCOPE
       value: "{{ dp_mellomlagring_api_scope }}"
   ingresses:
