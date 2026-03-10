@@ -46,8 +46,12 @@ internal class PdfBehovløser(
     ) {
         val kontekst = packet["kontekst"].asText()
         withLoggingContext("id" to packet["@id"].asText(), "kontekst" to kontekst) {
+            logg.info { "Mottok behov for å lage pdf" }
             val ident = packet["ident"].asText()
-            val html = packet["htmlBase64"].asText().decodeBase64String()
+            val html =
+                packet["htmlBase64"].asText().decodeBase64String().also {
+                    sikkerlogg.info { "Skal lage pdf av HTML: $it" }
+                }
             val dokumentNavn = packet["dokumentNavn"].asText()
             val sakId = packet["sak"]["id"].asText()
             val pdf = PdfBuilder.lagPdf(html = lagHtml(sakId = sakId, htmlBody = html))
