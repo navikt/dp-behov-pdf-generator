@@ -74,8 +74,18 @@ private val pdfStørrelseHistogram =
         .name("pdf_storrelse_bytes")
         .help("Størrelse på generert pdf")
         .labelNames("flyt")
-        .classicUpperBounds(10_000.0, 50_000.0, 100_000.0, 500_000.0, 1_000_000.0, 5_000_000.0, 10_000_000.0)
-        .register()
+        .classicUpperBounds(
+            500.kilobyte,
+            1.megabyte,
+            2.megabyte,
+            3.megabyte,
+            5.megabyte,
+            7.5.megabyte,
+            10.megabyte,
+            15.megabyte,
+            20.megabyte,
+            30.megabyte,
+        ).register()
 
 private val htmlStørrelseHistogram =
     Histogram
@@ -83,7 +93,7 @@ private val htmlStørrelseHistogram =
         .name("pdf_html_storrelse_bytes")
         .help("Størrelse på HTML som konverteres til pdf")
         .labelNames("flyt")
-        .classicUpperBounds(10_000.0, 50_000.0, 100_000.0, 500_000.0, 1_000_000.0, 5_000_000.0, 10_000_000.0)
+        .classicUpperBounds(10.kilobyte, 50.kilobyte, 100.kilobyte, 500.kilobyte, 1.megabyte, 5.megabyte, 10.megabyte)
         .register()
 
 /**
