@@ -9,6 +9,11 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 import io.ktor.server.util.getOrFail
 import no.nav.dagpenger.pdf.html.lagHtml
+import no.nav.dagpenger.pdf.observability.PdfFlyt
+import no.nav.dagpenger.pdf.observability.målPdfGenerering
+import no.nav.dagpenger.pdf.observability.målPdfRendering
+import no.nav.dagpenger.pdf.observability.registrerHtmlStørrelse
+import no.nav.dagpenger.pdf.observability.registrerPdfStørrelse
 
 fun Application.pdfGeneratorApi() {
     routing {
@@ -21,9 +26,7 @@ fun Application.pdfGeneratorApi() {
                 call.respond(HttpStatusCode.BadRequest, "HTML content is empty")
                 return@post
             }
-            PdfBuilder.lagPdf(lagHtml(sakId = sakId, htmlBody = htmlContent)).let {
-                call.respond(HttpStatusCode.OK, it)
-            }
+            call.respond(HttpStatusCode.OK, lagPdfOgMål(PdfFlyt.API_MED_SAKID, lagHtml(sakId = sakId, htmlBody = htmlContent)))
         }
 
         post("/convert-html-to-pdf") {
@@ -34,9 +37,18 @@ fun Application.pdfGeneratorApi() {
                 call.respond(HttpStatusCode.BadRequest, "HTML content is empty")
                 return@post
             }
-            PdfBuilder.lagPdf(htmlContent).let {
-                call.respond(HttpStatusCode.OK, it)
-            }
+            call.respond(HttpStatusCode.OK, lagPdfOgMål(PdfFlyt.API_RÅ, htmlContent))
         }
     }
 }
+
+// Måler hele genereringen og selve renderingen, og registrerer størrelsen på HTML og ferdig pdf.
+private fun lagPdfOgMål(
+    flyt: PdfFlyt,
+    html: String,
+): ByteArray =
+    målPdfGenerering(flyt) {
+        registrerHtmlStørrelse(flyt, html.toByteArray().size)
+        målPdfRendering(flyt) { PdfBuilder.lagPdf(html) }
+            .also { registrerPdfStørrelse(flyt, it.size) }
+    }

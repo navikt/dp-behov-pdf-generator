@@ -14,6 +14,15 @@ import no.nav.dagpenger.pdf.generator.PdfBuilder
 import no.nav.dagpenger.pdf.html.lagHtml
 import no.nav.dagpenger.pdf.lagring.Lagring
 import no.nav.dagpenger.pdf.lagring.PdfDokument
+import no.nav.dagpenger.pdf.observability.PdfFlyt
+import no.nav.dagpenger.pdf.observability.PdfSteg
+import no.nav.dagpenger.pdf.observability.konteksttype
+import no.nav.dagpenger.pdf.observability.målPdfGenerering
+import no.nav.dagpenger.pdf.observability.målPdfLagring
+import no.nav.dagpenger.pdf.observability.målPdfRendering
+import no.nav.dagpenger.pdf.observability.registrerHtmlStørrelse
+import no.nav.dagpenger.pdf.observability.registrerPdfFeil
+import no.nav.dagpenger.pdf.observability.registrerPdfStørrelse
 
 internal class PdfBehovløser(
     rapidsConnection: RapidsConnection,
@@ -45,27 +54,43 @@ internal class PdfBehovløser(
         meterRegistry: MeterRegistry,
     ) {
         val kontekst = packet["kontekst"].asText()
+        val flyt = PdfFlyt.PDF_BEHOV
+        var steg = PdfSteg.DEKODING
         withLoggingContext("id" to packet["@id"].asText(), "kontekst" to kontekst) {
             logg.info { "Mottok behov for å lage pdf" }
-            val ident = packet["ident"].asText()
-            val html =
-                packet["htmlBase64"].asText().decodeBase64String().also {
-                    sikkerlogg.info { "Skal lage pdf av HTML: $it" }
-                }
-            val dokumentNavn = packet["dokumentNavn"].asText()
-            val sakId = packet["sak"]["id"].asText()
-            val pdf = PdfBuilder.lagPdf(html = lagHtml(sakId = sakId, htmlBody = html))
+            val startTid = System.nanoTime()
+            try {
+                målPdfGenerering(flyt) {
+                    val ident = packet["ident"].asText()
+                    val html =
+                        packet["htmlBase64"].asText().decodeBase64String().also {
+                            sikkerlogg.info { "Skal lage pdf av HTML: $it" }
+                        }
+                    registrerHtmlStørrelse(flyt, html.toByteArray().size)
+                    val dokumentNavn = packet["dokumentNavn"].asText()
+                    val sakId = packet["sak"]["id"].asText()
 
-            val pdfDokument =
-                PdfDokument(
-                    navn = dokumentNavn,
-                    eier = ident,
-                    pdf = pdf,
-                )
+                    steg = PdfSteg.HTML_BYGGING
+                    val ferdigHtml = lagHtml(sakId = sakId, htmlBody = html)
 
-            runBlocking {
-                try {
-                    val lagretDokument = lagring.lagre(kontekst, pdfDokument).first()
+                    steg = PdfSteg.RENDERING
+                    val pdf = målPdfRendering(flyt) { PdfBuilder.lagPdf(html = ferdigHtml) }
+                    registrerPdfStørrelse(flyt, pdf.size)
+
+                    val pdfDokument =
+                        PdfDokument(
+                            navn = dokumentNavn,
+                            eier = ident,
+                            pdf = pdf,
+                        )
+
+                    steg = PdfSteg.LAGRING
+                    val lagretDokument =
+                        målPdfLagring(flyt, konteksttype(kontekst)) {
+                            runBlocking { lagring.lagre(kontekst, pdfDokument).first() }
+                        }
+
+                    steg = PdfSteg.PUBLISERING
                     packet["@løsning"] =
                         mapOf(
                             BEHOV to
@@ -79,10 +104,14 @@ internal class PdfBehovløser(
                                 ),
                         )
                     context.publish(packet.toJson())
-                } catch (e: Exception) {
-                    sikkerlogg.error(e) { "Feil ved generering av pdf. Html: $html" }
-                    throw e
+
+                    val varighetMs = (System.nanoTime() - startTid) / 1_000_000
+                    logg.info { "Fullførte pdf-generering på ${varighetMs}ms, størrelse ${pdf.size} bytes" }
                 }
+            } catch (e: Exception) {
+                registrerPdfFeil(flyt, steg)
+                sikkerlogg.error(e) { "Feil ved generering av pdf i steg ${steg.label}" }
+                throw e
             }
         }
     }
