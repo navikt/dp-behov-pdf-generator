@@ -2,6 +2,7 @@ package no.nav.dagpenger.pdf.lagring
 
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -45,6 +46,10 @@ internal class LagringImpl(
     tokenSupplier: () -> String,
     engine: HttpClientEngine = CIO.create(),
 ) : Lagring {
+    companion object {
+        private val logg = KotlinLogging.logger {}
+    }
+
     private val httpKlient: HttpClient =
         HttpClient(engine) {
             expectSuccess = true
@@ -65,8 +70,9 @@ internal class LagringImpl(
     override suspend fun lagre(
         kontekst: String,
         pdfDokument: PdfDokument,
-    ): List<URNResponse> =
-        httpKlient
+    ): List<URNResponse> {
+        logg.info { "Sender ${pdfDokument.navn} (${pdfDokument.pdf.size} bytes) til dp-mellomlagring, kontekst=$kontekst" }
+        return httpKlient
             .submitFormWithBinaryData(
                 url = "$baseUrl/$kontekst",
                 formData =
@@ -83,4 +89,6 @@ internal class LagringImpl(
             ) {
                 this.header("X-Eier", pdfDokument.eier)
             }.body<List<URNResponse>>()
+            .also { logg.info { "Mottok ${it.size} urn(er) fra dp-mellomlagring" } }
+    }
 }

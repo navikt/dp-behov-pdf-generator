@@ -71,11 +71,14 @@ internal class PdfBehovløser(
                     val sakId = packet["sak"]["id"].asText()
 
                     steg = PdfSteg.HTML_BYGGING
+                    logg.info { "Bygger ferdig HTML for pdf" }
                     val ferdigHtml = lagHtml(sakId = sakId, htmlBody = html)
 
                     steg = PdfSteg.RENDERING
+                    logg.info { "Starter pdf-rendering" }
                     val pdf = målPdfRendering(flyt) { PdfBuilder.lagPdf(html = ferdigHtml) }
                     registrerPdfStørrelse(flyt, pdf.size)
+                    logg.info { "Fullførte pdf-rendering, størrelse ${pdf.size} bytes" }
 
                     val pdfDokument =
                         PdfDokument(
@@ -85,10 +88,12 @@ internal class PdfBehovløser(
                         )
 
                     steg = PdfSteg.LAGRING
+                    logg.info { "Lagrer pdf hos dp-mellomlagring" }
                     val lagretDokument =
                         målPdfLagring(flyt, konteksttype(kontekst)) {
                             runBlocking { lagring.lagre(kontekst, pdfDokument).first() }
                         }
+                    logg.info { "Lagret pdf, urn=${lagretDokument.urn}" }
 
                     steg = PdfSteg.PUBLISERING
                     packet["@løsning"] =
