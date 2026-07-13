@@ -1,7 +1,5 @@
 package no.nav.dagpenger.pdf.lagring
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -17,7 +15,7 @@ import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
 import java.time.ZonedDateTime
 
 internal interface Lagring {
@@ -57,10 +55,7 @@ internal class LagringImpl(
                 header("Authorization", "Bearer ${tokenSupplier.invoke()}")
             }
             install(ContentNegotiation) {
-                jackson {
-                    registerModule(JavaTimeModule())
-                    disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                }
+                jackson()
             }
             install(Logging) {
                 level = LogLevel.INFO
