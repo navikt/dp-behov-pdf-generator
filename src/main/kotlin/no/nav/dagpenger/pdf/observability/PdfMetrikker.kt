@@ -75,15 +75,15 @@ private val pdfStørrelseHistogram =
         .help("Størrelse på generert pdf")
         .labelNames("flyt")
         .classicUpperBounds(
+            100.kilobyte,
+            200.kilobyte,
+            300.kilobyte,
+            400.kilobyte,
             500.kilobyte,
+            750.kilobyte,
             1.megabyte,
-            2.megabyte,
-            3.megabyte,
             5.megabyte,
-            7.5.megabyte,
             10.megabyte,
-            15.megabyte,
-            20.megabyte,
             30.megabyte,
         ).register()
 
