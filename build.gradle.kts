@@ -19,7 +19,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
     implementation("org.jsoup:jsoup:1.17.2")
 
-    testImplementation("de.redsix:pdfcompare:1.1.61")
+    testImplementation("de.redsix:pdfcompare:1.2.9")
     testImplementation("org.verapdf:validation-model:1.26.1")
     testImplementation("io.ktor:ktor-server-test-host-jvm:${libs.versions.ktor.get()}")
     testImplementation(libs.ktor.client.mock)
