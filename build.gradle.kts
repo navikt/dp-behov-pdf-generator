@@ -13,7 +13,7 @@ dependencies {
     implementation("no.nav.dagpenger:oauth2-klient:2025.12.19-08.15.2e150cd55270")
     implementation("io.prometheus:prometheus-metrics-core:1.3.1")
 
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.22")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.85")
     implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.22")
     implementation("commons-io:commons-io:2.17.0") // For å fikse CVE-2024-47554 i openhtmltopdf-svg-support:1.1.22
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
