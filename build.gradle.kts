@@ -17,7 +17,7 @@ dependencies {
     implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.86")
     implementation("commons-io:commons-io:2.22.0") // For å fikse CVE-2024-47554 i openhtmltopdf-svg-support:1.1.22
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
-    implementation("org.jsoup:jsoup:1.23.1")
+    implementation("org.jsoup:jsoup:1.23.2")
 
     testImplementation("de.redsix:pdfcompare:1.2.11")
     testImplementation("org.verapdf:validation-model:1.30.2")
