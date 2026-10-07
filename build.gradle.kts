@@ -14,7 +14,7 @@ dependencies {
     implementation("io.prometheus:prometheus-metrics-core:1.9.0")
 
     implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.93")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.87")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.93")
     implementation("commons-io:commons-io:2.22.0") // For å fikse CVE-2024-47554 i openhtmltopdf-svg-support:1.1.22
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
     implementation("org.jsoup:jsoup:1.23.2")
