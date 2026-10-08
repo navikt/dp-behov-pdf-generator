@@ -20,7 +20,7 @@ dependencies {
     implementation("org.jsoup:jsoup:1.23.2")
 
     testImplementation("de.redsix:pdfcompare:1.2.11")
-    testImplementation("org.verapdf:validation-model:1.30.2")
+    testImplementation("org.verapdf:validation-model:1.30.3")
     testImplementation("io.ktor:ktor-server-test-host-jvm:${libs.versions.ktor.get()}")
     testImplementation(libs.ktor.client.mock)
     testImplementation(libs.mockk)
