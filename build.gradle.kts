@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
     implementation("no.nav.dagpenger:oauth2-klient:2026.10.19-06.23.ec3aaa4756e0")
-    implementation("io.prometheus:prometheus-metrics-core:1.9.0")
+    implementation("io.prometheus:prometheus-metrics-core:1.10.0")
 
     implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.97")
     implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.97")
