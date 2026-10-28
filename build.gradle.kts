@@ -10,11 +10,11 @@ dependencies {
     implementation(libs.kotlin.logging)
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
-    implementation("no.nav.dagpenger:oauth2-klient:2026.10.21-18.19.6bb281e1bc34")
+    implementation("no.nav.dagpenger:oauth2-klient:2026.10.22-06.22.e2d33d69479c")
     implementation("io.prometheus:prometheus-metrics-core:1.10.0")
 
-    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.97")
-    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.97")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.103")
+    implementation("io.github.openhtmltopdf:openhtmltopdf-svg-support:1.1.103")
     implementation("commons-io:commons-io:2.22.0") // For å fikse CVE-2024-47554 i openhtmltopdf-svg-support:1.1.22
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
     implementation("org.jsoup:jsoup:1.23.2")
