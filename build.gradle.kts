@@ -10,7 +10,7 @@ dependencies {
     implementation(libs.kotlin.logging)
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
-    implementation("no.nav.dagpenger:oauth2-klient:2026.11.11-12.39.fb80454576f1")
+    implementation("no.nav.dagpenger:oauth2-klient:2026.11.11-13.39.1535e94d2015")
     implementation("io.prometheus:prometheus-metrics-core:1.10.0")
 
     implementation("io.github.openhtmltopdf:openhtmltopdf-pdfbox:1.1.108")
